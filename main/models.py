@@ -39,7 +39,7 @@ class Employer(models.Model):
 class Offer(models.Model):
     name = models.CharField(max_length=20)
     description = models.TextField()
-    location = models.CharField(max_length=100)
+    location = models.ForeignKey('cities_light.City', on_delete=models.SET_NULL)
     job = models.ForeignKey(Job, on_delete=models.SET_NULL)
     salary_min = models.IntegerField()
     salary_max = models.IntegerField()
