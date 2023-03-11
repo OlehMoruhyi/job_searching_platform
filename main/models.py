@@ -18,12 +18,12 @@ class Seeker(models.Model):
     surname = models.CharField(max_length=50)
     name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50, null=True)
-    location = models.ForeignKey('cities_light.City', on_delete=models.SET_NULL)
+    location = models.ForeignKey('cities_light.City', on_delete=models.SET_NULL, null=True)
     is_part_tyme = models.BooleanField()
     is_remotable = models.BooleanField()
     birthday = models.DateField()
     phone_number = PhoneNumberField()
-    preferable_job = models.ForeignKey(Job, on_delete=models.SET_NULL)
+    preferable_job = models.ForeignKey(Job, on_delete=models.SET_NULL, null=True)
     salary_min = models.IntegerField()
     salary_max = models.IntegerField()
     experience = models.IntegerField()
@@ -31,7 +31,7 @@ class Seeker(models.Model):
 
 
 class Employer(models.Model):
-    user_id = models.OneToOneField(User, on_delete=models.CASCADE)
+    user_id = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     company_name = models.CharField(max_length=100)
     contact_number = PhoneNumberField()
 
@@ -39,8 +39,8 @@ class Employer(models.Model):
 class Offer(models.Model):
     name = models.CharField(max_length=20)
     description = models.TextField()
-    location = models.ForeignKey('cities_light.City', on_delete=models.SET_NULL)
-    job = models.ForeignKey(Job, on_delete=models.SET_NULL)
+    location = models.ForeignKey('cities_light.City', on_delete=models.SET_NULL, null=True)
+    job = models.ForeignKey(Job, on_delete=models.SET_NULL, null=True)
     salary_min = models.IntegerField()
     salary_max = models.IntegerField()
     experience_min = models.IntegerField()
@@ -57,5 +57,5 @@ class OfferResponse(models.Model):
     is_from_user = models.BooleanField()
 
 
-def is_a(user: User) -> bool:
+def is_seeker(user: User) -> bool:
     return hasattr(user, 'a')
