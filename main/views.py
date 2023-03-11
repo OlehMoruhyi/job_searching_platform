@@ -20,7 +20,9 @@ def register_request(request):
 
 
 class HomeView(View):
-    ...
+    template_name = 'index.html'
+    def get(self, request):
+        return render(request, 'main/index.html')
 
 
 class ProfileView(View):
