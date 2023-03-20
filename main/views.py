@@ -25,43 +25,43 @@ class HomeView(View):
         return render(request, 'main/index.html')
 
 
-class ProfileView(View):
+class ProfileView(View):  # Serhii
     ...
 
 
-class OfferListView(View):
+class OfferListView(View):  # Lesha
     ...
 
 
-class OfferDetailView(View):
+class OfferDetailView(View):  # Yehor
     ...
 
 
-class SendCVView(View):
+class SendCVView(View):  # Lesha
     ...
 
 
-class CVListView(View):
+class CVListView(View):  # Lesha
     ...
 
 
-class CVDetailView(View):
+class CVDetailView(View):  # Yehor
     ...
 
 
-class ProfileOfferListView(View):
+class ProfileOfferListView(View):  # Oleh
     ...
 
 
-class OfferCreateView(View):
+class OfferCreateView(View):  # Oleh, Serhii
     ...
 
 
-class OfferUpdateView(View):
+class OfferUpdateView(View):  # Oleh, Serhii
     ...
 
 
-class OfferDeleteView(View):
+class OfferDeleteView(View):  # Oleh, Serhii
     ...
 
 

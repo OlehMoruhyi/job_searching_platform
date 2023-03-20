@@ -1,4 +1,5 @@
 {% extends 'main/header.html' %}
+{% load static %}
 
 {% block title %}
 Main page
@@ -7,7 +8,7 @@ Main page
 {% block banner %}
 <!-- Banner
 ================================================== -->
-<div id="banner" style="background: url(images/banner-home-01.jpg)">
+<div id="banner" style="background: url({% static "images/banner-home-01.jpg" %})">
 	<div class="container">
 		<div class="sixteen columns">
 

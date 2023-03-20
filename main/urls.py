@@ -6,7 +6,7 @@ from . import views
 name = 'main'
 
 urlpatterns = [
-    path('', views.HomeView.as_view(template_name='index.html'), name='get'),
+    path('', views.HomeView.as_view(template_name='index.html'), name='home'),
     path("accounts", include("django.contrib.auth.urls")),
     path("accounts/registration", views.register_request, name='registration'),
     path("accounts/profile", views.ProfileView.as_view(), name='profile'),
