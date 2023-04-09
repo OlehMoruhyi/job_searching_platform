@@ -1,23 +1,55 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import login
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.shortcuts import render, redirect, Http404
+from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from django.views.generic import View
-from .models import User, Offer
+from django.views.generic.edit import CreateView, UpdateView
+from django.urls import reverse, reverse_lazy
 
-from .forms import NewUserForm
+from .models import Offer, Seeker
+from .forms import SeekerRegistrationForm, EmployerRegistrationForm, LoginForm
 
 
-def register_request(request):
+def registration_request(request):
+    return render(request=request, template_name="registration/registration.html", context={'title': 'Registration'})
+
+
+def user_registration_request(request, form_class):
     if request.method == "POST":
-        form = NewUserForm(request.POST)
+        form = form_class(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request, user)
-            messages.success(request, "Registration successful.")
-            return redirect("main:home")
-        messages.error(request, "Unsuccessful registration. Invalid information.")
-    form = NewUserForm()
-    return render(request=request, template_name="main/register.html", context={"register_form": form})
+            user_obj = form.save()
+            login(request, user_obj.user)
+            return redirect(request.GET.get('next', reverse_lazy('home')))
+    else:
+        form = form_class()
+    return render(request=request, template_name="form.html", context={"form": form, 'title': 'Registration'})
+
+
+def seeker_registration_request(request):
+    return user_registration_request(request, SeekerRegistrationForm)
+
+
+def employer_registration_request(request):
+    return user_registration_request(request, EmployerRegistrationForm)
+
+
+def login_request(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+
+            user = authenticate(username=email, password=password)
+            if user and user.is_active:
+                login(request, user)
+                return redirect(request.GET['next'])
+            form.add_error(None, 'User doas not exist')
+    else:
+        form = LoginForm()
+    return render(request=request, template_name="form.html", context={"form": form, 'title': 'Log In'})
+    # return render(request=request, template_name="registration/login.html", context={"form": form})
 
 
 class HomeView(View):
@@ -29,7 +61,7 @@ class HomeView(View):
         return render(request, 'main/index.html', {'recent': recent, 'spotlight': spotlight})
 
 
-class ProfileView(View):  # Serhii
+class ProfileView(LoginRequiredMixin, View):  # Serhii
     ...
 
 
@@ -67,6 +99,3 @@ class OfferUpdateView(View):  # Oleh, Serhii
 
 class OfferDeleteView(View):  # Oleh, Serhii
     ...
-
-
-

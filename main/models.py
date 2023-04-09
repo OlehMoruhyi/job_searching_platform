@@ -21,10 +21,10 @@ class Job(models.Model):
 
 class Seeker(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    surname = models.CharField(max_length=50)
     name = models.CharField(max_length=50)
+    surname = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50, blank=True)
-    birthday = models.DateField(blank=True)
+    birthday = models.DateField(blank=True, null=True)
 
 
 def user_directory_path(instance, filename):

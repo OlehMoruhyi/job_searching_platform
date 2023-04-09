@@ -1,0 +1,63 @@
+{% extends 'header.html' %}
+{% load static %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block banner %}
+    <div id="titlebar" class="single">
+        <div class="container">
+
+            <div class="sixteen columns">
+                <h2>{{ title }}</h2>
+                <nav id="breadcrumbs">
+                    <ul>
+                        <li>You are here:</li>
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li>{{ title }}</li>
+                    </ul>
+                </nav>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+
+        <div class="my-account">
+            <div class="tabs-container">
+
+                <div class="tab-content" id="tab2" style="display: none;">
+
+                    <h3 class="margin-bottom-10 margin-top-10">{{ title }}</h3>
+
+                    <form method="post" class="form">
+                        {% csrf_token %}
+
+                        {% for error in form.non_field_errors %}
+                            <p style="color:red;">{{ error }}</p>
+                        {% endfor %}
+
+                        {% for field in form %}
+                            <div class="form-row form-row-wide">
+                                {{ field.label_tag }}
+                                {{ field }}
+                                {% for error in field.errors %}
+                                    <p style="color:red;">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+
+                        <p class="form-row">
+                            <input type="submit" class="button" name="register" value="Submit"/>
+                        </p>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
