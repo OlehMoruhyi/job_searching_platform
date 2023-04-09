@@ -1,10 +1,60 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
+    <link rel="stylesheet" href="{% static "css/colors/green.css" %}" id="colors">
+
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 </head>
 <body>
-$END$
+<div id="wrapper">
+    <!-- Header
+    ================================================== -->
+    {% block header %}  {% endblock %}
+
+
+    <!-- Banner
+    ================================================== -->
+    {% block banner %}{% endblock %}
+
+    <!-- Content
+    ================================================== -->
+    {% block content %}{% endblock %}
+
+    <!-- Footer
+    ================================================== -->
+    {% include 'footer.html' %}
+{#    {% block footer %}{% endblock %}#}
+
+    <!-- Back To Top Button -->
+    <div id="backtotop"><a href="#"></a></div>
+
+</div>
+<!-- Wrapper / End -->
+
+
+
+<!-- Scripts
+================================================== -->
+<script src="{% static "scripts/jquery-2.1.3.min.js" %}"></script>
+<script src="{% static "scripts/custom.js" %}"></script>
+<script src="{% static "scripts/jquery.superfish.js" %}"></script>
+<script src="{% static "scripts/jquery.themepunch.tools.min.js" %}"></script>
+<script src="{% static "scripts/jquery.themepunch.revolution.min.js" %}"></script>
+<script src="{% static "scripts/jquery.themepunch.showbizpro.min.js" %}"></script>
+<script src="{% static "scripts/jquery.flexslider-min.js" %}"></script>
+<script src="{% static "scripts/chosen.jquery.min.js" %}"></script>
+<script src="{% static "scripts/jquery.magnific-popup.min.js" %}"></script>
+<script src="{% static "scripts/waypoints.min.js" %}"></script>
+<script src="{% static "scripts/jquery.counterup.min.js" %}"></script>
+<script src="{% static "scripts/jquery.jpanelmenu.js" %}"></script>
+<script src="{% static "scripts/stacktable.js" %}"></script>
 </body>
 </html>
