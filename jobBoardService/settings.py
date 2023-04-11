@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'cities_light',
 
-    'main.apps.MainConfig'
+    'main'
 ]
 
 MIDDLEWARE = [
