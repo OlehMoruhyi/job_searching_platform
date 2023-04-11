@@ -50,7 +50,7 @@ class SeekerForm(forms.ModelForm):
 
     name = forms.CharField()
     surname = forms.CharField()
-    last_name = forms.CharField(required=False)
+    last_name = forms.CharField(required=False, label_suffix=' (optional):')
     birthday = forms.DateField(widget=forms.DateInput, required=False)
 
 
@@ -63,11 +63,11 @@ class EmployerForm(forms.ModelForm):
 
 
 class SeekerRegistrationForm(UserRegistrationForm, SeekerForm):
-    pass
+    field_order = ('email', 'name', 'surname', 'last_name', 'birthday', 'password')
 
 
 class EmployerRegistrationForm(UserRegistrationForm, EmployerForm):
-    pass
+    field_order = ('email', 'company_name', 'password')
 
 
 class LoginForm(forms.Form):

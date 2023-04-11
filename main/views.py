@@ -2,10 +2,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, Http404, get_object_or_404
 from django.contrib.auth import login, authenticate
-from django.contrib import messages
 from django.views.generic import View
-from django.views.generic.edit import CreateView, UpdateView
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
 from django.contrib.auth.views import PasswordChangeView as AuthPasswordChangeView
 
 from .models import Offer, Seeker, Employer
@@ -13,27 +11,27 @@ from .forms import SeekerRegistrationForm, EmployerRegistrationForm, LoginForm, 
 
 
 def registration_request(request):
-    return render(request=request, template_name="registration/registration.html", context={'title': 'Registration'})
+    user_type = request.GET.get('user_type')
+    print(user_type)
+    if user_type == 'seeker':
+        form_class = SeekerRegistrationForm
+    elif user_type == 'employer':
+        form_class = EmployerRegistrationForm
+    else:
+        form_class = None
 
-
-def user_registration_request(request, form_class):
     if request.method == "POST":
         form = form_class(request.POST)
         if form.is_valid():
             profile = form.save()
             login(request, profile.user)
             return redirect(request.GET.get('next', reverse_lazy('home')))
-    else:
+    elif form_class:
         form = form_class()
-    return render(request=request, template_name="form.html", context={"form": form, 'title': 'Registration'})
-
-
-def seeker_registration_request(request):
-    return user_registration_request(request, SeekerRegistrationForm)
-
-
-def employer_registration_request(request):
-    return user_registration_request(request, EmployerRegistrationForm)
+    else:
+        form = None
+    return render(request=request, template_name="registration/registration.html",
+                  context={"form": form, 'title': 'Registration'})
 
 
 def login_request(request):

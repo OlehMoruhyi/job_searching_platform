@@ -28,9 +28,36 @@
     <div class="container">
 
         <div class="my-account">
-            <a href="{% url 'seeker_registration' %}?next={{ request.GET.next}}" class="button"  style="width: 100px" align="center">Seeker</a>
-            <a href="{% url 'employer_registration' %}?next={{ request.GET.next}}" class="button" style="width: 100px" align="center">Employer</a>
+            <a href="{% url 'registration' %}?user_type=seeker&next={{ request.GET.next}}" class="button"  style="width: 100px" align="center">Seeker</a>
+            <a href="{% url 'registration' %}?user_type=employer&next={{ request.GET.next}}" class="button" style="width: 100px" align="center">Employer</a>
+            {% if form %}
+                <h3 class="margin-bottom-10 margin-top-10">{{ request.GET.user_type|title }}</h3>
+                <form method="post" class="form">
+                    {% csrf_token %}
+
+                    {% for error in form.non_field_errors %}
+                        <p style="color:red;">{{ error }}</p>
+                    {% endfor %}
+
+                    {% for field in form %}
+                        <div class="form-row form-row-wide">
+                            {{ field.label_tag }}
+                            {{ field }}
+                            {% for error in field.errors %}
+                                <p style="color:red;">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+
+                    <p class="form-row">
+                        <input type="submit" class="button" name="register" value="Submit"/>
+                    </p>
+
+                </form>
+            {% endif %}
         </div>
         <div class="margin-top-60"></div>
     </div>
+
+
 {% endblock %}

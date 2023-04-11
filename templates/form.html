@@ -28,36 +28,31 @@
     <div class="container">
 
         <div class="my-account">
-            <div class="tabs-container">
+            <h3 class="margin-bottom-10 margin-top-10">{{ title }}</h3>
 
-                <div class="tab-content" id="tab2" style="display: none;">
+            <form method="post" class="form">
+                {% csrf_token %}
 
-                    <h3 class="margin-bottom-10 margin-top-10">{{ title }}</h3>
+                {% for error in form.non_field_errors %}
+                    <p style="color:red;">{{ error }}</p>
+                {% endfor %}
 
-                    <form method="post" class="form">
-                        {% csrf_token %}
-
-                        {% for error in form.non_field_errors %}
+                {% for field in form %}
+                    <div class="form-row form-row-wide">
+                        {{ field.label_tag }}
+                        {{ field }}
+                        {% for error in field.errors %}
                             <p style="color:red;">{{ error }}</p>
                         {% endfor %}
+                    </div>
+                {% endfor %}
 
-                        {% for field in form %}
-                            <div class="form-row form-row-wide">
-                                {{ field.label_tag }}
-                                {{ field }}
-                                {% for error in field.errors %}
-                                    <p style="color:red;">{{ error }}</p>
-                                {% endfor %}
-                            </div>
-                        {% endfor %}
+                <p class="form-row">
+                    <input type="submit" class="button" name="register" value="Submit"/>
+                </p>
 
-                        <p class="form-row">
-                            <input type="submit" class="button" name="register" value="Submit"/>
-                        </p>
-
-                    </form>
-                </div>
-            </div>
+            </form>
         </div>
+    <div class="margin-top-60"></div>
     </div>
 {% endblock %}
