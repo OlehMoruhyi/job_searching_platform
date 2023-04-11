@@ -15,11 +15,10 @@ urlpatterns = [
 
     path("accounts/login", views.login_request, name='login'),
     path("accounts/logout", auth_views.LogoutView.as_view(), name='logout'),
-    path("accounts/password_change",
-         auth_views.PasswordChangeView.as_view(template_name='registration/change_password.html', success_url='/'),
-         name='password_change'),
+    path("accounts/password_change", views.PasswordChangeView.as_view(), name='password_change'),
 
     path("accounts/profile", views.ProfileView.as_view(), name='profile'),
+    path("accounts/profile/update", views.profile_update, name='profile_update'),
 
     path("dashboard/offer", views.OfferListView.as_view(), name='dash'),
     path("dashboard/offer/<pk>", views.OfferDetailView.as_view(), name='offer'),

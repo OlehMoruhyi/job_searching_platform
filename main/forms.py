@@ -11,14 +11,14 @@ from phonenumber_field.formfields import PhoneNumberField
 from .models import Seeker, Employer
 
 
-class RegistrationForm(forms.ModelForm):
+class UserRegistrationForm(forms.ModelForm):
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput)
 
     def clean_password(self):
-        password1 = self.cleaned_data['password']
-        validate_password(password1)
-        return password1
+        password = self.cleaned_data['password']
+        validate_password(password)
+        return password
 
     def clean_email(self):
         email = self.cleaned_data['email']
@@ -28,22 +28,22 @@ class RegistrationForm(forms.ModelForm):
         return email
 
     def save(self, commit=True):
-        user_obj = super(RegistrationForm, self).save(commit=False)
+        profile = super(UserRegistrationForm, self).save(commit=False)
         try:
             user = User.objects.create_user(
                 username=self.cleaned_data['email'],
                 email=self.cleaned_data['email'],
                 password=self.cleaned_data['password'])
-            user_obj.user = user
+            profile.user = user
             if commit:
                 user.save()
-                user_obj.save()
-            return user_obj
+                profile.save()
+            return profile
         except IntegrityError as e:
             raise ValidationError(e)
 
 
-class SeekerRegistrationForm(RegistrationForm):
+class SeekerForm(forms.ModelForm):
     class Meta:
         model = Seeker
         fields = ('name', 'surname', 'last_name', 'birthday')
@@ -54,7 +54,7 @@ class SeekerRegistrationForm(RegistrationForm):
     birthday = forms.DateField(widget=forms.DateInput, required=False)
 
 
-class EmployerRegistrationForm(RegistrationForm):
+class EmployerForm(forms.ModelForm):
     class Meta:
         model = Employer
         fields = ('company_name',)
@@ -62,7 +62,14 @@ class EmployerRegistrationForm(RegistrationForm):
     company_name = forms.CharField()
 
 
+class SeekerRegistrationForm(UserRegistrationForm, SeekerForm):
+    pass
+
+
+class EmployerRegistrationForm(UserRegistrationForm, EmployerForm):
+    pass
+
+
 class LoginForm(forms.Form):
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput)
-

@@ -1,0 +1,10 @@
+{% extends 'main/profile.html' %}
+{% load static %}
+
+
+{% block obj_profile %}
+    <p><strong>Name: </strong>{{ seeker.name }} {{ seeker.surname }} {{ seeker.last_name }}</p>
+    {% if seeker.birthday %}
+        <p><strong>Birthday: </strong>{{ seeker.birthday }}</p>
+    {% endif %}
+{% endblock %}

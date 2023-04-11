@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-    Registration
+Profile
 {% endblock %}
 
 {% block banner %}
@@ -10,12 +10,12 @@
         <div class="container">
 
             <div class="sixteen columns">
-                <h2>{{ title }}</h2>
+                <h2>Profile</h2>
                 <nav id="breadcrumbs">
                     <ul>
                         <li>You are here:</li>
                         <li><a href="{% url 'home' %}">Home</a></li>
-                        <li>{{ title }}</li>
+                        <li>Profile</li>
                     </ul>
                 </nav>
             </div>
@@ -26,11 +26,10 @@
 
 {% block content %}
     <div class="container">
-
-        <div class="my-account">
-            <a href="{% url 'seeker_registration' %}?next={{ request.GET.next}}" class="button"  style="width: 100px" align="center">Seeker</a>
-            <a href="{% url 'employer_registration' %}?next={{ request.GET.next}}" class="button" style="width: 100px" align="center">Employer</a>
-        </div>
-        <div class="margin-top-60"></div>
+        {% block obj_profile %}
+        {% endblock %}
+        <a href="{% url 'password_change' %}?next={% url 'profile' %}" class="button">Change Password</a>
+        <a href="{% url 'profile_update' %}?next={% url 'profile' %}" class="button">Update Profile</a>
     </div>
+    <div class="margin-top-60"></div>
 {% endblock %}
