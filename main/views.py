@@ -12,7 +12,6 @@ from .forms import SeekerRegistrationForm, EmployerRegistrationForm, LoginForm, 
 
 def registration_request(request):
     user_type = request.GET.get('user_type')
-    print(user_type)
     if user_type == 'seeker':
         form_class = SeekerRegistrationForm
     elif user_type == 'employer':
@@ -58,15 +57,6 @@ class PasswordChangeView(AuthPasswordChangeView):
         return self.request.GET.get('next', 'profile')
 
 
-class HomeView(View):
-    template_name = 'index.html'
-
-    def get(self, request):
-        recent = Offer.objects.all()
-        spotlight = Offer.objects.all()
-        return render(request, 'main/index.html', {'recent': recent, 'spotlight': spotlight})
-
-
 class ProfileView(LoginRequiredMixin, View):  # Serhii
 
     def get(self, request):
@@ -106,7 +96,16 @@ def profile_update(request):
     return render(request=request, template_name="form.html", context={"form": form, 'title': 'Update Profile'})
 
 
-class OfferListView(View):  # Lesha
+class HomeView(View):  # Oleh
+    template_name = 'index.html'
+
+    def get(self, request):
+        recent = Offer.objects.all()
+        spotlight = Offer.objects.all()
+        return render(request, 'main/index.html', {'recent': recent, 'spotlight': spotlight})
+
+
+class OfferListView(View):  # Oleh
     ...
 
 
@@ -114,7 +113,15 @@ class OfferDetailView(View):  # Yehor
     ...
 
 
-class SendCVView(View):  # Lesha
+class OfferCreateView(View):  # Yehor
+    ...
+
+
+class OfferUpdateView(View):  # Yehor
+    ...
+
+
+class OfferDeleteView(View):  # Oleh
     ...
 
 
@@ -122,33 +129,21 @@ class CVListView(View):  # Lesha
     ...
 
 
-class CVDetailView(View):  # Yehor
+class CVDetailView(View):  # Lesha
     ...
 
 
-class ProfileOfferListView(View):  # Oleh
+class CVCreateView(View):  # Lesha
     ...
 
 
-class OfferCreateView(View):  # Oleh, Serhii
+class CVUpdateView(View):  # Lesha
     ...
 
 
-class OfferUpdateView(View):  # Oleh, Serhii
+class CVDeleteView(View):  # Lesha
     ...
 
 
-class OfferDeleteView(View):  # Oleh, Serhii
-    ...
-
-
-class CVCreateView(View):
-    ...
-
-
-class CVUpdateView(View):
-    ...
-
-
-class CVDeleteView(View):
+class SendCVView(View):  # Oleh
     ...
