@@ -5,6 +5,7 @@ from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 
+from .models import Offer, Seeker, Employer
 from cities_light.models import City
 from phonenumber_field.formfields import PhoneNumberField
 
@@ -73,3 +74,8 @@ class EmployerRegistrationForm(UserRegistrationForm, EmployerForm):
 class LoginForm(forms.Form):
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput)
+
+class OfferForm(forms.ModelForm):
+    class Meta:
+        model = Offer
+        fields = '__all__'

@@ -33,8 +33,8 @@ def user_directory_path(instance, filename):
 
 class CV(models.Model):
     location = models.ForeignKey('cities_light.City', on_delete=models.SET_NULL, blank=True, null=True)
-    is_part_tyme = models.BooleanField()
-    is_full_tyme = models.BooleanField()
+    is_part_time = models.BooleanField()
+    is_full_time = models.BooleanField()
     is_remotable = models.BooleanField()
     is_in_office = models.BooleanField()
     phone_number = PhoneNumberField()
@@ -63,8 +63,8 @@ class Offer(models.Model):
     salary_max = models.IntegerField()
     experience_min = models.IntegerField()
     experience_max = models.IntegerField()
-    is_part_tyme = models.BooleanField()
-    is_full_tyme = models.BooleanField()
+    is_part_time = models.BooleanField()
+    is_full_time = models.BooleanField()
     is_remotable = models.BooleanField()
     is_in_office = models.BooleanField()
     contact_number = PhoneNumberField()

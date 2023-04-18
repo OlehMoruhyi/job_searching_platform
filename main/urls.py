@@ -20,8 +20,9 @@ urlpatterns = [
     path("dashboard/offer", views.OfferListView.as_view(), name='offer_dash'),
     path("dashboard/offer/<pk>", views.OfferDetailView.as_view(), name='offer'),
 
-    path("accounts/profile/offer/<pk>", views.OfferDetailView.as_view(), name='offer_detail'),
     path("accounts/profile/offer/create", views.OfferCreateView.as_view(), name='offer_create'),
+    path("accounts/profile/offer/<pk>", views.OfferDetailView.as_view(), name='offer_detail'),
+
     path("accounts/profile/offer/<pk>/update", views.OfferUpdateView.as_view(), name='offer_update'),
     path("accounts/profile/offer/<pk>/delete", views.OfferDeleteView.as_view(), name='offer_delete'),
 

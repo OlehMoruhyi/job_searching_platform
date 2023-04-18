@@ -2,12 +2,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, Http404, get_object_or_404
 from django.contrib.auth import login, authenticate
-from django.views.generic import View
+from django.views.generic import View, DetailView, ListView, CreateView
 from django.urls import reverse_lazy
 from django.contrib.auth.views import PasswordChangeView as AuthPasswordChangeView
 
 from .models import Offer, Seeker, Employer
-from .forms import SeekerRegistrationForm, EmployerRegistrationForm, LoginForm, SeekerForm, EmployerForm
+from .forms import SeekerRegistrationForm, EmployerRegistrationForm, LoginForm, SeekerForm, EmployerForm, OfferForm
 
 
 def registration_request(request):
@@ -109,12 +109,16 @@ class OfferListView(View):  # Oleh
     ...
 
 
-class OfferDetailView(View):  # Yehor
-    ...
+class OfferDetailView(DetailView):  # Yehor
+    model = Offer
+    template_name = 'main/job-page.html'
+    slug_url_kwarg = 'pk'
+    context_object_name = 'offer'
 
 
-class OfferCreateView(View):  # Yehor
-    ...
+class OfferCreateView(CreateView):  # Yehor
+    form_class = OfferForm
+    template_name = 'main/add-job.html'
 
 
 class OfferUpdateView(View):  # Yehor
