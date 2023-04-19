@@ -2,9 +2,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, Http404, get_object_or_404
 from django.contrib.auth import login, authenticate
-from django.views.generic import View, DetailView, ListView, CreateView
+from django.views.generic import View, DetailView, ListView, CreateView, UpdateView
 from django.urls import reverse_lazy
 from django.contrib.auth.views import PasswordChangeView as AuthPasswordChangeView
+from django.contrib import messages
 
 from .models import Offer, Seeker, Employer
 from .forms import SeekerRegistrationForm, EmployerRegistrationForm, LoginForm, SeekerForm, EmployerForm, OfferForm
@@ -119,10 +120,25 @@ class OfferDetailView(DetailView):  # Yehor
 class OfferCreateView(CreateView):  # Yehor
     form_class = OfferForm
     template_name = 'main/add-job.html'
+    success_url = reverse_lazy('home')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        messages.success(self.request, "The task was created successfully.")
+        return super(OfferCreateView, self).form_valid(form)
 
 
-class OfferUpdateView(View):  # Yehor
-    ...
+class OfferUpdateView(UpdateView):  # Yehor
+    model = Offer
+    form_class = OfferForm
+    slug_url_kwarg = 'pk'
+    template_name = 'main/update-job.html'
+    success_url = reverse_lazy('home')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        messages.success(self.request, "The task was created successfully.")
+        return super(OfferUpdateView, self).form_valid(form)
 
 
 class OfferDeleteView(View):  # Oleh

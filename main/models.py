@@ -51,7 +51,7 @@ class CV(models.Model):
 
 class Employer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
-    company_name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
 
 
 class Offer(models.Model):
