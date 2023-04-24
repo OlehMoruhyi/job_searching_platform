@@ -38,8 +38,8 @@ def user_directory_path(instance, filename):
 
 class CV(models.Model):
     location = models.ForeignKey('cities_light.City', on_delete=models.SET_NULL, blank=True, null=True)
-    is_part_tyme = models.BooleanField()
-    is_full_tyme = models.BooleanField()
+    is_part_time = models.BooleanField()
+    is_full_time = models.BooleanField()
     is_remotable = models.BooleanField()
     is_in_office = models.BooleanField()
     phone_number = PhoneNumberField()
@@ -47,7 +47,7 @@ class CV(models.Model):
     salary = models.IntegerField()
     experience = models.IntegerField()
     cv_file = models.FileField(upload_to=user_directory_path, blank=True)
-    is_active = models.BooleanField()
+    publish_date = models.DateField()
     seeker = models.ForeignKey(Seeker, on_delete=models.CASCADE)
     offer = models.ManyToManyField('Offer', through='OfferResponse', related_name='offer_response')
 
@@ -64,25 +64,23 @@ class Offer(models.Model):
     salary_max = models.IntegerField()
     experience_min = models.IntegerField()
     experience_max = models.IntegerField()
-    is_part_tyme = models.BooleanField()
-    is_full_tyme = models.BooleanField()
+    is_part_time = models.BooleanField()
+    is_full_time = models.BooleanField()
     is_remotable = models.BooleanField()
     is_in_office = models.BooleanField()
     contact_number = PhoneNumberField()
-    is_active = models.BooleanField()
+    publish_date = models.DateField()
     employer = models.ForeignKey(Employer, on_delete=models.CASCADE)
     cv = models.ManyToManyField('CV', through='CVResponse', related_name='cv_response')
 
 
 class CVResponse(models.Model):
     cv = models.ForeignKey(CV, on_delete=models.CASCADE)
-    # employer = models.ForeignKey(Employer, on_delete=models.CASCADE)
     offer = models.ForeignKey(Offer, on_delete=models.CASCADE)
     letter = models.TextField(blank=True, null=True)
 
 
 class OfferResponse(models.Model):
     offer = models.ForeignKey(Offer, on_delete=models.CASCADE)
-    # seeker = models.ForeignKey(Seeker, on_delete=models.CASCADE)
     cv = models.ForeignKey(CV, on_delete=models.CASCADE)
     letter = models.TextField(blank=True, null=True)
