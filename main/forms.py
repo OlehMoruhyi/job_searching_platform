@@ -10,8 +10,6 @@ from cities_light.models import City
 from phonenumber_field.formfields import PhoneNumberField
 
 from .models import Seeker, Employer
-
-
 class UserRegistrationForm(forms.ModelForm):
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput)
