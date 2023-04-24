@@ -6,7 +6,7 @@ from django.views.generic import View
 from django.urls import reverse_lazy
 from django.contrib.auth.views import PasswordChangeView as AuthPasswordChangeView
 
-from .models import Offer, Seeker, Employer
+from .models import Seeker, Employer, CV, Offer
 from .forms import SeekerRegistrationForm, EmployerRegistrationForm, LoginForm, SeekerForm, EmployerForm
 
 
@@ -63,12 +63,21 @@ class ProfileView(LoginRequiredMixin, View):  # Serhii
         user = request.user
         if hasattr(user, 'seeker'):
             seeker = Seeker.objects.get(user=user)
-            return render(request=request, template_name="main/seeker_profile.html", context={'seeker': seeker})
+            cvs = CV.objects.filter(seeker=seeker)
+
+            template_name = "main/seeker_profile.html"
+            context = {'seeker': seeker, 'cvs': cvs, }
+
         elif hasattr(user, 'employer'):
             employer = Employer.objects.get(user=user)
-            return render(request=request, template_name="main/employer_profile.html", context={'employer': employer})
+            offers = Offer.objects.filter(employer=employer)
+
+            template_name = "main/employer_profile.html"
+            context = {'employer': employer, 'offers': offers}
         else:
             raise Http404
+
+        return render(request=request, template_name=template_name, context=context)
 
 
 @login_required

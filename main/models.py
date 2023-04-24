@@ -27,6 +27,11 @@ class Seeker(models.Model):
     birthday = models.DateField(blank=True, null=True)
 
 
+class Employer(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+    company_name = models.CharField(max_length=100)
+
+
 def user_directory_path(instance, filename):
     return 'user_{0}/{1}'.format(instance.seeker.id, filename)
 
@@ -42,22 +47,18 @@ class CV(models.Model):
     salary = models.IntegerField()
     experience = models.IntegerField()
     cv_file = models.FileField(upload_to=user_directory_path, blank=True)
-
+    is_active = models.BooleanField()
     seeker = models.ForeignKey(Seeker, on_delete=models.CASCADE)
+    offer = models.ManyToManyField('Offer', through='OfferResponse', related_name='offer_response')
 
     def cv_name(self):
         return self.cv_file.name.split('/')[-1]
 
 
-class Employer(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
-    company_name = models.CharField(max_length=100)
-
-
 class Offer(models.Model):
     name = models.CharField(max_length=20)
     description = models.TextField()
-    location = models.ForeignKey('cities_light.City', on_delete=models.SET_NULL, null=True)
+    location = models.ForeignKey('cities_light.City', on_delete=models.SET_NULL, blank=True, null=True)
     job = models.ForeignKey(Job, on_delete=models.SET_NULL, null=True)
     salary_min = models.IntegerField()
     salary_max = models.IntegerField()
@@ -68,11 +69,20 @@ class Offer(models.Model):
     is_remotable = models.BooleanField()
     is_in_office = models.BooleanField()
     contact_number = PhoneNumberField()
+    is_active = models.BooleanField()
     employer = models.ForeignKey(Employer, on_delete=models.CASCADE)
+    cv = models.ManyToManyField('CV', through='CVResponse', related_name='cv_response')
+
+
+class CVResponse(models.Model):
+    cv = models.ForeignKey(CV, on_delete=models.CASCADE)
+    # employer = models.ForeignKey(Employer, on_delete=models.CASCADE)
+    offer = models.ForeignKey(Offer, on_delete=models.CASCADE)
+    letter = models.TextField(blank=True, null=True)
 
 
 class OfferResponse(models.Model):
     offer = models.ForeignKey(Offer, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    cover_letter = models.TextField()
-    is_from_user = models.BooleanField()
+    # seeker = models.ForeignKey(Seeker, on_delete=models.CASCADE)
+    cv = models.ForeignKey(CV, on_delete=models.CASCADE)
+    letter = models.TextField(blank=True, null=True)

@@ -1,10 +1,114 @@
-{% extends 'main/profile.html' %}
+{% extends 'header.html' %}
 {% load static %}
 
+{% block title %}
+    Profile
+{% endblock %}
 
-{% block obj_profile %}
-    <p><strong>Name: </strong>{{ seeker.name }} {{ seeker.surname }} {{ seeker.last_name }}</p>
-    {% if seeker.birthday %}
-        <p><strong>Birthday: </strong>{{ seeker.birthday }}</p>
-    {% endif %}
+{% block content %}
+    <!-- Profile info -->
+    <div id="titlebar" class="single">
+        <div class="container">
+            <div class="sixteen columns">
+                <h2>Profile</h2>
+                <nav id="breadcrumbs">
+                    <ul>
+                        <li>You are here:</li>
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li>Profile</li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="sixteen columns">
+            <p><strong>Name: </strong>{{ seeker.name }} {{ seeker.surname }} {{ seeker.last_name }}</p>
+            {% if seeker.birthday %}
+                <p><strong>Birthday: </strong>{{ seeker.birthday }}</p>
+            {% endif %}
+            <a href="{% url 'password_change' %}?next={% url 'profile' %}" class="button">Change Password</a>
+            <a href="{% url 'profile_update' %}?next={% url 'profile' %}" class="button">Update Profile</a>
+
+        </div>
+    </div>
+    <div class="margin-top-60"></div>
+
+
+    <!-- CV info -->
+    <div id="titlebar" class="single">
+        <div class="container">
+            <div class="sixteen columns">
+                <h2>Manage resumes</h2>
+                <nav id="breadcrumbs">
+                    <ul>
+                        <li>You are here:</li>
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li>Manage resumes</li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="sixteen columns">
+            {% if cvs %}
+                <table class="manage-table resumes responsive-table">
+                    <tr>
+                        <th><i class="fa fa-user"></i> Job</th>
+                        <th><i class="fa fa-file-text"></i> Salary</th>
+                        <th><i class="fa fa-map-marker"></i> Experience</th>
+                        <th><i class="fa fa-map-marker"></i> Type of employment</th>
+                        <th><i class="fa fa-calendar"></i> Type of remoteness</th>
+                        <th><i class="fa fa-user"></i> Location</th>
+                        <th><i class="fa fa-calendar"></i> CV file</th>
+                        <th><i class="fa fa-calendar"></i> Offers</th>
+                        <th></th>
+                    </tr>
+
+                    {% for cv in cvs %}
+                        <tr>
+                            <td class="title">{{ cv.preferable_job }}</td>
+                            <td>{{ cv.salary }}</td>
+                            <td>{{ cv.experience }}</td>
+                            <td>{% if cv.is_part_tyme %}Part time{% if cv.is_full_tyme %}<br>Full
+                                Time{% endif %}{% elif cv.is_full_tyme %}Full Time{% endif %}</td>
+                            <td>{% if cv.is_remotable %}Remote{% if cv.is_remotable %}<br>In
+                                office{% endif %}{% elif cv.is_remotable %}In office{% endif %}</td>
+                            <td>{{ cv.location }}</td>
+                            <td><a href="{{ cv.cv_file.url }}">{{ cv.cv_name }}</a></td>
+                            <td>{% if cv.offer.count %}
+                                <a href="" class="button">Show ({{ cv.offer.count }})</a>{% else %}-{% endif %}</td>
+                            <td class="action">
+                                <a href="#"><i class="fa fa-pencil"></i> Edit</a>
+                                <a href="#" onclick=""><i class="fa  fa-eye-slash"></i> Hide</a>
+                                <a href="#" class="delete"><i class="fa fa-remove"></i> Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+
+            {% else %}
+                <p>You didnt hav CV yet</p>
+            {% endif %}
+            <br>
+            <a class="button" href="#">Add CV</a>
+        </div>
+    </div>
+    <div class="margin-top-60"></div>
+
+    <script>
+        function activate(url, id) {
+            console.log('Requesting JSON');
+            <!--$.post(url, {}, function (rowz) {
+                console.log(url, 'finished');
+                $("#unfavorite_star_" + ad_id).toggle();
+                $("#favorite_star_" + ad_id).toggle();
+            }).fail(function (xhr) {
+                alert('Url failed with ' + xhr.status + ' ' + url);
+            });-->
+        }
+    </script>
+
+
 {% endblock %}
