@@ -76,3 +76,8 @@ class OfferResponse(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     cover_letter = models.TextField()
     is_from_user = models.BooleanField()
+
+class CVResponse(models.Model):
+    cv = models.ForeignKey(CV, on_delete=models.CASCADE)
+    offer = models.ForeignKey(Offer, on_delete=models.CASCADE)
+    letter = models.TextField(blank=True, null=True)
