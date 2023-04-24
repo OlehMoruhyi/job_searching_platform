@@ -124,8 +124,13 @@ class OfferCreateView(CreateView):  # Yehor
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+        candidate = form.save(commit=False)
+        candidate.user = UserProfile.objects.get(user=self.request.user)  # use your own profile here
+        candidate.save()
         messages.success(self.request, "The task was created successfully.")
         return super(OfferCreateView, self).form_valid(form)
+
+
 
 
 class OfferUpdateView(UpdateView):  # Yehor
