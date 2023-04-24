@@ -54,8 +54,6 @@ class Employer(models.Model):
     name = models.CharField(max_length=100)
 
 
-
-
 class Offer(models.Model):
     name = models.CharField(max_length=20)
     description = models.TextField()

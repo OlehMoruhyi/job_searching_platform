@@ -2,10 +2,39 @@
 {% load static %}
 
 {% block title %}
-Profile
+    Profile
 {% endblock %}
 
-{% block banner %}
+{% block banner_1 %}
+    <div id="titlebar" class="single">
+        <div class="container">
+
+            <div class="sixteen columns">
+                <h2>Profile</h2>
+                <nav id="breadcrumbs">
+                    <ul>
+                        <li>You are here:</li>
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li>Profile</li>
+                    </ul>
+                </nav>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block content_1 %}
+    <div class="container">
+        {% block profile %}
+        {% endblock %}
+        <a href="{% url 'password_change' %}?next={% url 'profile' %}" class="button">Change Password</a>
+        <a href="{% url 'profile_update' %}?next={% url 'profile' %}" class="button">Update Profile</a>
+    </div>
+    <div class="margin-top-60"></div>
+{% endblock %}
+
+{% block banner_2 %}
     <div id="titlebar" class="single">
         <div class="container">
 
@@ -26,10 +55,9 @@ Profile
 
 {% block content %}
     <div class="container">
-        {% block obj_profile %}
+        {% block manage %}
         {% endblock %}
-        <a href="{% url 'password_change' %}?next={% url 'profile' %}" class="button">Change Password</a>
-        <a href="{% url 'profile_update' %}?next={% url 'profile' %}" class="button">Update Profile</a>
+
     </div>
     <div class="margin-top-60"></div>
 {% endblock %}
