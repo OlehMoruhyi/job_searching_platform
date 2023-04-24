@@ -10,8 +10,6 @@ from cities_light.models import City
 from phonenumber_field.formfields import PhoneNumberField
 
 from .models import Seeker, Employer
-
-
 class UserRegistrationForm(forms.ModelForm):
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput)
@@ -75,12 +73,16 @@ class LoginForm(forms.Form):
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput)
 
+
 class OfferForm(forms.ModelForm):
     class Meta:
         model = Offer
-        fields = '__all__'
-
+        exclude = ('Employer',)
+        fields = ('name', 'description', 'location', 'job', 'salary_min','salary_max','experience_min','experience_max','is_part_time','is_full_time','is_remotable','is_in_office','contact_number')
+        
 class CVForm(forms.ModelForm):
     class Meta:
         model = CV
         fields = '__all__'
+
+       
