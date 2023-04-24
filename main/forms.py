@@ -5,7 +5,7 @@ from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
 
-from .models import Offer, Seeker, Employer
+from .models import Offer, Seeker, Employer, CV
 from cities_light.models import City
 from phonenumber_field.formfields import PhoneNumberField
 
@@ -79,6 +79,10 @@ class OfferForm(forms.ModelForm):
         model = Offer
         exclude = ('Employer',)
         fields = ('name', 'description', 'location', 'job', 'salary_min','salary_max','experience_min','experience_max','is_part_time','is_full_time','is_remotable','is_in_office','contact_number')
+        
+class CVForm(forms.ModelForm):
+    class Meta:
+        model = CV
+        fields = '__all__'
 
-
-
+       

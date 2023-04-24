@@ -2,13 +2,15 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, Http404, get_object_or_404
 from django.contrib.auth import login, authenticate
-from django.views.generic import View, DetailView, ListView, CreateView, UpdateView
+from django.views.generic import View, DetailView, ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.views import PasswordChangeView as AuthPasswordChangeView
 from django.contrib import messages
 
-from .models import Seeker, Employer, CV, Offer
-from .forms import SeekerRegistrationForm, EmployerRegistrationForm, LoginForm, SeekerForm, EmployerForm, OfferForm
+
+from .models import Offer, Seeker, Employer, CV
+from .forms import SeekerRegistrationForm, EmployerRegistrationForm, LoginForm, SeekerForm, EmployerForm, OfferForm, CVForm
+
 
 
 def registration_request(request):
@@ -159,25 +161,53 @@ class OfferDeleteView(View):  # Oleh
     ...
 
 
-class CVListView(View):  # Lesha
-    ...
+class CVListView(ListView):  # Lesha
+    # specify the model for list view
+    model = CV
+    template_name = 'main/cv-list.html'
+    context_object_name = 'cvs'
+
+class CVDetailView(DetailView):  # Lesha
+    model = CV
+    template_name = 'main/cv-detail.html'
+    slug_url_kwarg = 'pk'
+    context_object_name = 'cv'
 
 
-class CVDetailView(View):  # Lesha
-    ...
+class CVCreateView(CreateView):  # Lesha
+    form_class = CV
+    template_name = 'main/add-cv.html'
+    success_url = reverse_lazy('home')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        messages.success(self.request, "The task was created successfully.")
+        return super(CVCreateView, self).form_valid(form)
 
 
-class CVCreateView(View):  # Lesha
-    ...
+class CVUpdateView(UpdateView):  # Lesha
+    model = CV
+    form_class = CVForm
+    slug_url_kwarg = 'pk'
+    template_name = 'main/update-cv.html'
+    success_url = reverse_lazy('home')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        messages.success(self.request, "The cv was Updated successfully.")
+        return super(CVUpdateView, self).form_valid(form)
 
 
-class CVUpdateView(View):  # Lesha
-    ...
+class CVDeleteView(DeleteView):  # Lesha
+    model = CV
+    context_object_name = 'cv'
+    success_url = reverse_lazy("cv-list")
 
-
-class CVDeleteView(View):  # Lesha
-    ...
+    def form_valid(self, form):
+        messages.success(self.request, "The CV was deleted successfully.")
+        return super(CVDeleteView, self).form_valid(form)
 
 
 class SendCVView(View):  # Oleh
     ...
+
