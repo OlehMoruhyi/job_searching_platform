@@ -19,7 +19,7 @@
     </div>
     <div class="container">
         <div class="sixteen columns">
-            <p><strong>Company Name: </strong>{{ employer.company_name }}</p>
+            <p><strong>Company Name: </strong>{{ employer.name }}</p>
             <a href="{% url 'password_change' %}?next={% url 'profile' %}" class="button">Change Password</a>
             <a href="{% url 'profile_update' %}?next={% url 'profile' %}" class="button">Update Profile</a>
         </div>
@@ -62,9 +62,9 @@
                             <td>{% if offer.cv.count %}
                                 <a href="" class="button">Show ({{ offer.cv.count }})</a>{% else %}-{% endif %}</td>
                             <td class="action">
-                                <a href="#"><i class="fa fa-pencil"></i> Edit</a>
-                                <a href="#"><i class="fa  fa-eye-slash"></i> Hide</a>
-                                <a href="#" class="delete"><i class="fa fa-remove"></i> Delete</a>
+                                <a href="{% url 'offer_update' pk=offer.id %}"><i class="fa fa-pencil"></i> Edit</a>
+                                <a href="{% url 'offer_detail' pk=offer.id %}"><i class="fa  fa-eye-slash"></i> Open</a>
+                                <a href="{% url 'offer_delete' pk=offer.id %}" class="delete"><i class="fa fa-remove"></i> Delete</a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -74,7 +74,7 @@
                 <p>You didn't hav offer yet</p>
             {% endif %}
             <br>
-            <a class="button" href="#">Add offer</a>
+            <a class="button" href="{% url 'offer_create' %}">Add offer</a>
         </div>
     </div>
     <div class="margin-top-60"></div>

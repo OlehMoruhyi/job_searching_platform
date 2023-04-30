@@ -134,13 +134,12 @@ class OfferCreateView(CreateView):  # Yehor
     success_url = reverse_lazy('home')
 
     def form_valid(self, form):
-        form.instance.user = self.request.user
-        candidate = form.save(commit=False)
-        candidate.user = UserProfile.objects.get(user=self.request.user)  # use your own profile here
-        candidate.save()
+        user = self.request.user
+        employer = Employer.objects.get(user=user)
+        form.instance.employer = employer
+        form.save()
         messages.success(self.request, "The task was created successfully.")
         return super(OfferCreateView, self).form_valid(form)
-
 
 
 
@@ -157,8 +156,16 @@ class OfferUpdateView(UpdateView):  # Yehor
         return super(OfferUpdateView, self).form_valid(form)
 
 
-class OfferDeleteView(View):  # Oleh
-    ...
+class OfferDeleteView(DeleteView):  # Oleh
+    model = Offer
+    context_object_name = 'offer'
+    success_url = reverse_lazy('home')
+    template_name = 'main/offer_delete.html'
+
+    def form_valid(self, form):
+        messages.success(self.request, "The task was deleted successfully.")
+        return super(OfferDeleteView, self).form_valid(form)
+
 
 
 class CVListView(ListView):  # Lesha

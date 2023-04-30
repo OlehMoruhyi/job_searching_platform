@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
+from django.contrib.auth.decorators import login_required
 
 from . import views
 
@@ -20,7 +21,7 @@ urlpatterns = [
     path("dashboard/offer", views.OfferListView.as_view(), name='offer_dash'),
     path("dashboard/offer/<pk>", views.OfferDetailView.as_view(), name='offer'),
 
-    path("accounts/profile/offer/create", views.OfferCreateView.as_view(), name='offer_create'),
+    path("accounts/profile/offer/create", login_required(views.OfferCreateView.as_view()), name='offer_create'),
     path("accounts/profile/offer/<pk>", views.OfferDetailView.as_view(), name='offer_detail'),
 
     path("accounts/profile/offer/<pk>/update", views.OfferUpdateView.as_view(), name='offer_update'),
