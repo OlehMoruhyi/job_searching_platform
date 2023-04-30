@@ -171,7 +171,7 @@ class CVDetailView(DetailView):  # Lesha
     model = CV
     template_name = 'main/cv-detail.html'
     slug_url_kwarg = 'pk'
-    context_object_name = 'cv'
+    # context_object_name = 'cv'
 
 
 class CVCreateView(CreateView):  # Lesha
