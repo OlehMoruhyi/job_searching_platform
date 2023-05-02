@@ -30,10 +30,13 @@ urlpatterns = [
 
     path("dashboard/cv", views.CVListView.as_view(), name='cv_dash'),
     path("dashboard/cv/<pk>", views.CVDetailView.as_view(), name='cv'),
+    path("accounts/profile/cv/create", views.CVCreateView.as_view(), name='cv_create'),
+    path("dashboard/cv/<pk>/update", views.CVUpdateView.as_view(), name='cv_update'),
+    path("dashboard/cv/<pk>/delete", views.CVDeleteView.as_view(), name='cv_delete'),
 
-    path("accounts/profile/cv/<pk>", views.OfferDetailView.as_view(), name='cv_detail'),
-    path("accounts/profile/cv/create", views.OfferCreateView.as_view(), name='cv_create'),
-    path("accounts/profile/cv/<pk>/update", views.OfferUpdateView.as_view(), name='cv_update'),
-    path("accounts/profile/cv/<pk>/delete", views.OfferDeleteView.as_view(), name='cv_delete'),
+    # path("accounts/profile/cv/<pk>", views.OfferDetailView.as_view(), name='cv_detail'),
+    # path("accounts/profile/createcv", views.OfferCreateView.as_view(), name='cv_create'),
+    # path("accounts/profile/cv/<pk>/update", views.OfferUpdateView.as_view(), name='cv_update'),
+    # path("accounts/profile/cv/<pk>/delete", views.OfferDeleteView.as_view(), name='cv_delete'),
 
 ]
