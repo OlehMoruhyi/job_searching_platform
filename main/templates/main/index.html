@@ -162,78 +162,24 @@ Main page
 		<h3 class="margin-bottom-25">Recent Jobs</h3>
 		<ul class="job-list">
 
-			<li class="highlighted"><a href="job-page.html">
-				<img src="images/job-list-logo-01.png" alt="">
-				<div class="job-list-content">
-					<h4>Marketing Coordinator - SEO / SEM Experience <span class="full-time">Full-Time</span></h4>
-					<div class="job-icons">
-						<span><i class="fa fa-briefcase"></i> King</span>
-						<span><i class="fa fa-map-marker"></i> Sydney</span>
-						<span><i class="fa fa-money"></i> $100 / hour</span>
-					</div>
-				</div>
-				</a>
-				<div class="clearfix"></div>
-			</li>
 
-			<li><a href="job-page.html">
-				<img src="images/job-list-logo-02.png" alt="">
+            {% for rc in recent %}
+                <li><a href="dashboard/offer/{{ rc.id }}">
+				<img src="{% static "images/job-list-logo-01.png" %}" alt="">
 				<div class="job-list-content">
-					<h4>Core PHP Developer for Site Maintenance <span class="part-time">Part-Time</span></h4>
+					<h4>{{ rc.name }} {% if rc.is_full_time %} <span class="full-time">Full-Time</span>{% elif rc.is_part_time %} <span class="part-time">Part-Time</span>{% endif %}</h4>
 					<div class="job-icons">
-						<span><i class="fa fa-briefcase"></i> Cubico</span>
-						<span><i class="fa fa-map-marker"></i> London</span>
-						<span><i class="fa fa-money"></i> $50 / hour</span>
+						<span><i class="fa fa-map-marker"></i> {{ rc.location }}</span>
+						<span><i class="fa fa-money"></i> ${{ rc.salary_min }}-{{ rc.salary_max }}</span>
 					</div>
 				</div>
 				</a>
 				<div class="clearfix"></div>
 			</li>
-
-			<li><a href="job-page.html">
-				<img src="images/job-list-logo-03.png" alt="">
-				<div class="job-list-content">
-					<h4>Restaurant Team Member - Crew <span class="full-time">Full-Time</span></h4>
-					<div class="job-icons">
-						<span><i class="fa fa-briefcase"></i> King</span>
-						<span><i class="fa fa-map-marker"></i> Sydney</span>
-						<span><i class="fa fa-money"></i> $15 / hour</span>
-					</div>
-				</div>
-				</a>
-				<div class="clearfix"></div>
-			</li>
-
-			<li><a href="job-page.html">
-				<img src="images/job-list-logo-04.png" alt="">
-				<div class="job-list-content">
-					<h4>Power Systems User Experience Designer  <span class="internship">Internship</span></h4>
-					<div class="job-icons">
-						<span><i class="fa fa-briefcase"></i> Hexagon</span>
-						<span><i class="fa fa-map-marker"></i> London</span>
-						<span><i class="fa fa-money"></i> $75 / hour</span>
-					</div>
-				</div>
-				</a>
-				<div class="clearfix"></div>
-			</li>
-
-			<li><a href="job-page.html">
-				<img src="images/job-list-logo-05.png" alt="">
-				<div class="job-list-content">
-					<h4>iPhone / Android Music App Development <span class="temporary">Temporary</span></h4>
-					<div class="job-icons">
-						<span><i class="fa fa-briefcase"></i> Mates</span>
-						<span><i class="fa fa-map-marker"></i> New York</span>
-						<span><i class="fa fa-money"></i> $115 / hour</span>
-					</div>
-				</div>
-				</a>
-				<div class="clearfix"></div>
-			</li>
+            {% endfor %}
 		</ul>
 
-		<a href="browse-jobs.html" class="button centered"><i class="fa fa-plus-circle"></i> Show More Jobs</a>
+		<a href="dashboard/offer" class="button centered"><i class="fa fa-plus-circle"></i> Show More Jobs</a>
 		<div class="margin-bottom-55"></div>
 	</div>
 	</div>
@@ -255,39 +201,20 @@ Main page
 				<div class="overflowholder">
 
 					<ul>
-
-						<li>
+                        {% for sp in spotlight %}
+                        <li>
 							<div class="job-spotlight">
-								<a href="#"><h4>Social Media: Advertising Coordinator <span class="part-time">Part-Time</span></h4></a>
-								<span><i class="fa fa-briefcase"></i> Mates</span>
-								<span><i class="fa fa-map-marker"></i> New York</span>
-								<span><i class="fa fa-money"></i> $20 / hour</span>
-								<p>As advertising & content coordinator, you will support our social media team in producing high quality social content for a range of media channels.</p>
-								<a href="job-page.html" class="button">Apply For This Job</a>
+								<a href="#"><h4>{{ sp.name }}{% if sp.is_full_time %} <span class="full-time">Full-Time</span>{% elif sp.is_part_time %} <span class="part-time">Part-Time</span>{% endif %}</h4></a>
+
+								<span><i class="fa fa-map-marker"></i> {{ sp.location }}</span>
+								<span><i class="fa fa-money"></i> ${{ sp.salary_min }}-{{ sp.salary_max }} </span>
+								<p>{{ sp.description }}</p>
+								<a href="dashboard/offer/{{ sp.id }}" class="button">Apply For This Job</a>
 							</div>
 						</li>
+                        {% endfor %}
 
-						<li>
-							<div class="job-spotlight">
-								<a href="#"><h4>Prestashop / WooCommerce Product Listing <span class="freelance">Freelance</span></h4></a>
-								<span><i class="fa fa-briefcase"></i> King</span>
-								<span><i class="fa fa-map-marker"></i> London</span>
-								<span><i class="fa fa-money"></i> $25 / hour</span>
-								<p>Etiam suscipit tellus ante, sit amet hendrerit magna varius in. Pellentesque lorem quis enim venenatis pellentesque.</p>
-								<a href="job-page.html" class="button">Apply For This Job</a>
-							</div>
-						</li>
 
-						<li>
-							<div class="job-spotlight">
-								<a href="#"><h4>Logo Design <span class="freelance">Freelance</span></h4></a>
-								<span><i class="fa fa-briefcase"></i> Hexagon</span>
-								<span><i class="fa fa-map-marker"></i> Sydney</span>
-								<span><i class="fa fa-money"></i> $10 / hour</span>
-								<p>Proin ligula neque, pretium et ipsum eget, mattis commodo dolor. Etiam tincidunt libero quis commodo.</p>
-								<a href="job-page.html" class="button">Apply For This Job</a>
-							</div>
-						</li>
 
 
 					</ul>

@@ -1,0 +1,274 @@
+{% extends 'header.html' %}
+{% load static %}
+
+{% block title %}
+Offers for you
+{% endblock %}
+
+{#{% block banner %}#}
+{#<!-- Banner#}
+{#================================================== -->#}
+{#<div id="banner" style="background: url({% static "images/banner-home-01.jpg" %})">#}
+{#	<div class="container">#}
+{#		<div class="sixteen columns">#}
+{##}
+{#			<div class="search-container">#}
+{##}
+{#				<!-- Form -->#}
+{#				<h2>Find job</h2>#}
+{#				<input type="text" class="ico-01" placeholder="job title, keywords or company name" value=""/>#}
+{#				<input type="text" class="ico-02" placeholder="city, province or region" value=""/>#}
+{#				<button><i class="fa fa-search"></i></button>#}
+{##}
+{#				<!-- Browse Jobs -->#}
+{#				<div class="browse-jobs">#}
+{#					Browse job offers by <a href="browse-categories.html"> category</a> or <a href="#">location</a>#}
+{#				</div>#}
+{##}
+{#				<!-- Announce -->#}
+{#				<div class="announce">#}
+{#					We’ve over <strong>15 000</strong> job offers for you!#}
+{#				</div>#}
+{##}
+{#			</div>#}
+{##}
+{#		</div>#}
+{#	</div>#}
+{#</div>#}
+{#{% endblock %}#}
+
+{% block content %}
+<!-- Content
+================================================== -->
+<div class="container">
+	<!-- Recent Jobs -->
+	<div class="eleven columns">
+	<div class="padding-right">
+		
+		<form action="#" method="get" class="list-search">
+			<button><i class="fa fa-search"></i></button>
+			<input type="text" placeholder="job title, keywords or company name" value=""/>
+			<div class="clearfix"></div>
+		</form>
+
+		<ul class="job-list full">
+             {% for rc in recent %}
+                <li><a href="dashboard/offer/{{ rc.id }}">
+				<img src="{% static "images/job-list-logo-01.png" %}" alt="">
+				<div class="job-list-content">
+					<h4>{{ rc.name }} {% if rc.is_full_time %} <span class="full-time">Full-Time</span>{% elif rc.is_part_time %} <span class="part-time">Part-Time</span>{% endif %}</h4>
+					<div class="job-icons">
+						<span><i class="fa fa-map-marker"></i> {{ rc.location }}</span>
+						<span><i class="fa fa-money"></i> ${{ rc.salary_min }}-{{ rc.salary_max }}</span>
+					</div>
+                    <p>{{ rc.description }}</p>
+
+				</div>
+				</a>
+				<div class="clearfix"></div>
+			</li>
+            {% endfor %}
+
+
+		</ul>
+		<div class="clearfix"></div>
+
+		<div class="pagination-container">
+			<nav class="pagination">
+				<ul>
+					<li><a href="#" class="current-page">1</a></li>
+					<li><a href="#">2</a></li>
+					<li><a href="#">3</a></li>
+					<li class="blank">...</li>
+					<li><a href="#">22</a></li>
+				</ul>
+			</nav>
+
+			<nav class="pagination-next-prev">
+				<ul>
+					<li><a href="#" class="prev">Previous</a></li>
+					<li><a href="#" class="next">Next</a></li>
+				</ul>
+			</nav>
+		</div>
+
+	</div>
+	</div>
+
+
+	<!-- Widgets -->
+	<div class="five columns">
+
+
+
+		<!-- Location -->
+		<div class="widget">
+			<h4>Location</h4>
+			<form action="#" method="get">
+				<input type="text" placeholder="City" value=""/>
+
+				<button class="button">Filter</button>
+			</form>
+		</div>
+
+		<!-- Job Type -->
+		<div class="widget">
+			<h4>Job Type</h4>
+
+			<ul class="checkboxes">
+				<li>
+					<input id="check-1" type="checkbox" name="check" value="check-1" checked>
+					<label for="check-1">Any Type</label>
+				</li>
+				<li>
+					<input id="check-2" type="checkbox" name="check" value="check-2">
+					<label for="check-2">Full-Time <span>(312)</span></label>
+				</li>
+				<li>
+					<input id="check-3" type="checkbox" name="check" value="check-3">
+					<label for="check-3">Part-Time <span>(269)</span></label>
+				</li>
+
+			</ul>
+
+		</div>
+
+		<!-- Rate/Hr -->
+		<div class="widget">
+			<h4>Rate / Hr</h4>
+
+			<ul class="checkboxes">
+				<li>
+					<input id="check-6" type="checkbox" name="check" value="check-6" checked>
+					<label for="check-6">Any Rate</label>
+				</li>
+				<li>
+					<input id="check-7" type="checkbox" name="check" value="check-7">
+					<label for="check-7">$0 - $25 <span>(231)</span></label>
+				</li>
+				<li>
+					<input id="check-8" type="checkbox" name="check" value="check-8">
+					<label for="check-8">$25 - $50 <span>(297)</span></label>
+				</li>
+				<li>
+					<input id="check-9" type="checkbox" name="check" value="check-9">
+					<label for="check-9">$50 - $100 <span>(78)</span></label>
+				</li>
+				<li>
+					<input id="check-10" type="checkbox" name="check" value="check-10">
+					<label for="check-10">$100 - $200 <span>(98)</span></label>
+				</li>
+				<li>
+					<input id="check-11" type="checkbox" name="check" value="check-11">
+					<label for="check-11">$200+ <span>(21)</span></label>
+				</li>
+			</ul>
+
+		</div>
+
+
+
+	</div>
+	<!-- Widgets / End -->
+
+
+</div>
+
+
+<!-- Footer
+================================================== -->
+<div class="margin-top-25"></div>
+
+<div id="footer">
+	<!-- Main -->
+	<div class="container">
+
+		<div class="seven columns">
+			<h4>About</h4>
+			<p>Morbi convallis bibendum urna ut viverra. Maecenas quis consequat libero, a feugiat eros. Nunc ut lacinia tortor morbi ultricies laoreet ullamcorper phasellus semper.</p>
+			<a href="#" class="button">Get Started</a>
+		</div>
+
+		<div class="three columns">
+			<h4>Company</h4>
+			<ul class="footer-links">
+				<li><a href="#">About Us</a></li>
+				<li><a href="#">Careers</a></li>
+				<li><a href="#">Our Blog</a></li>
+				<li><a href="#">Terms of Service</a></li>
+				<li><a href="#">Privacy Policy</a></li>
+				<li><a href="#">Hiring Hub</a></li>
+			</ul>
+		</div>
+		
+		<div class="three columns">
+			<h4>Press</h4>
+			<ul class="footer-links">
+				<li><a href="#">In the News</a></li>
+				<li><a href="#">Press Releases</a></li>
+				<li><a href="#">Awards</a></li>
+				<li><a href="#">Testimonials</a></li>
+				<li><a href="#">Timeline</a></li>
+			</ul>
+		</div>		
+
+		<div class="three columns">
+			<h4>Browse</h4>
+			<ul class="footer-links">
+				<li><a href="#">Freelancers by Category</a></li>
+				<li><a href="#">Freelancers in USA</a></li>
+				<li><a href="#">Freelancers in UK</a></li>
+				<li><a href="#">Freelancers in Canada</a></li>
+				<li><a href="#">Freelancers in Australia</a></li>
+				<li><a href="#">Find Jobs</a></li>
+
+			</ul>
+		</div>
+
+	</div>
+
+	<!-- Bottom -->
+	<div class="container">
+		<div class="footer-bottom">
+			<div class="sixteen columns">
+				<h4>Follow Us</h4>
+				<ul class="social-icons">
+					<li><a class="facebook" href="#"><i class="icon-facebook"></i></a></li>
+					<li><a class="twitter" href="#"><i class="icon-twitter"></i></a></li>
+					<li><a class="gplus" href="#"><i class="icon-gplus"></i></a></li>
+					<li><a class="linkedin" href="#"><i class="icon-linkedin"></i></a></li>
+				</ul>
+				<div class="copyrights">©  Copyright 2015 by <a href="#">Work Scout</a>. All Rights Reserved.</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<!-- Back To Top Button -->
+<div id="backtotop"><a href="#"></a></div>
+
+</div>
+<!-- Wrapper / End -->
+
+
+<!-- Scripts
+================================================== -->
+<script src="scripts/jquery-2.1.3.min.js"></script>
+<script src="scripts/custom.js"></script>
+<script src="scripts/jquery.superfish.js"></script>
+<script src="scripts/jquery.themepunch.tools.min.js"></script>
+<script src="scripts/jquery.themepunch.revolution.min.js"></script>
+<script src="scripts/jquery.themepunch.showbizpro.min.js"></script>
+<script src="scripts/jquery.flexslider-min.js"></script>
+<script src="scripts/chosen.jquery.min.js"></script>
+<script src="scripts/jquery.magnific-popup.min.js"></script>
+<script src="scripts/waypoints.min.js"></script>
+<script src="scripts/jquery.counterup.min.js"></script>
+<script src="scripts/jquery.jpanelmenu.js"></script>
+<script src="scripts/stacktable.js"></script>
+
+
+</body>
+</html>
+{% endblock %}

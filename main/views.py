@@ -112,13 +112,15 @@ class HomeView(View):  # Oleh
     template_name = 'index.html'
 
     def get(self, request):
-        recent = Offer.objects.all()
-        spotlight = Offer.objects.all()
+        recent = Offer.objects.all()[:8]
+        spotlight = Offer.objects.all()[:3]
         return render(request, 'main/index.html', {'recent': recent, 'spotlight': spotlight})
 
 
 class OfferListView(View):  # Oleh
-    ...
+    def get(self, request):
+        recent = Offer.objects.all()
+        return render(request, 'main/browse-jobs.html', {'recent': recent})
 
 
 class OfferDetailView(DetailView):  # Yehor
