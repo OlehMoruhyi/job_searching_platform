@@ -6,6 +6,7 @@ from django.views.generic import View, DetailView, ListView, CreateView, UpdateV
 from django.urls import reverse_lazy
 from django.contrib.auth.views import PasswordChangeView as AuthPasswordChangeView
 from django.contrib import messages
+from django.core.paginator import Paginator
 
 
 from .models import Offer, Seeker, Employer, CV
@@ -119,8 +120,14 @@ class HomeView(View):  # Oleh
 
 class OfferListView(View):  # Oleh
     def get(self, request):
-        recent = Offer.objects.all()
-        return render(request, 'main/browse-jobs.html', {'recent': recent})
+        name = request.GET.get("name", default="")
+        location = request.GET.get("location", default="")
+        recent = Offer.objects.filter(name__icontains=name, location__name__icontains=location)
+
+        paginator = Paginator(recent, 1)
+        page_number = request.GET.get("page", default=1)
+        page_obj = paginator.get_page(page_number)
+        return render(request, 'main/browse-jobs.html', {"page_obj": page_obj, 'nm': name, 'lc': location})
 
 
 class OfferDetailView(DetailView):  # Yehor

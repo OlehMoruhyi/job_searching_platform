@@ -45,18 +45,19 @@ Offers for you
 	<div class="eleven columns">
 	<div class="padding-right">
 		
-		<form action="#" method="get" class="list-search">
+		<form action="offer" method="get" class="list-search">
 			<button><i class="fa fa-search"></i></button>
-			<input type="text" placeholder="job title, keywords or company name" value=""/>
+			<input type="text" placeholder="job title, keywords or company name"  name="name" value="{{ nm }}" />
+            <input type="hidden" name="location" value="{{ lc }}" />
 			<div class="clearfix"></div>
 		</form>
 
 		<ul class="job-list full">
-             {% for rc in recent %}
-                <li><a href="dashboard/offer/{{ rc.id }}">
+             {% for rc in page_obj %}
+                <li><a href="/dashboard/offer/{{ rc.id }}">
 				<img src="{% static "images/job-list-logo-01.png" %}" alt="">
 				<div class="job-list-content">
-					<h4>{{ rc.name }} {% if rc.is_full_time %} <span class="full-time">Full-Time</span>{% elif rc.is_part_time %} <span class="part-time">Part-Time</span>{% endif %}</h4>
+					<h4>{{ rc.name }} {% if rc.is_full_time %} <span class="full-time">Full-Time</span>{% endif %}{% if rc.is_part_time %} <span class="part-time">Part-Time</span>{% endif %}</h4>
 					<div class="job-icons">
 						<span><i class="fa fa-map-marker"></i> {{ rc.location }}</span>
 						<span><i class="fa fa-money"></i> ${{ rc.salary_min }}-{{ rc.salary_max }}</span>
@@ -73,23 +74,29 @@ Offers for you
 		</ul>
 		<div class="clearfix"></div>
 
-		<div class="pagination-container">
-			<nav class="pagination">
-				<ul>
-					<li><a href="#" class="current-page">1</a></li>
-					<li><a href="#">2</a></li>
-					<li><a href="#">3</a></li>
-					<li class="blank">...</li>
-					<li><a href="#">22</a></li>
-				</ul>
-			</nav>
 
-			<nav class="pagination-next-prev">
-				<ul>
-					<li><a href="#" class="prev">Previous</a></li>
-					<li><a href="#" class="next">Next</a></li>
-				</ul>
-			</nav>
+
+
+		<div class="pagination-container">
+            <nav class="pagination">
+                <ul>
+                    {% if page_obj.has_previous %}
+                        <li><a href="?page=1&name={{ pg }}&location={{ lc }}">&laquo; first</a></li>
+                        <li><a href="?page={{ page_obj.previous_page_number }}&name={{ pg }}&location={{ lc }}">prev</a></li>
+                    {% endif %}
+
+
+                    <li class="blank">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</li>
+
+
+
+                    {% if page_obj.has_next %}
+                        <li><a href="?page={{ page_obj.next_page_number }}&name={{ pg }}&location={{ lc }}">next</a></li>
+                        <li><a href="?page={{ page_obj.paginator.num_pages }}&name={{ pg }}&location={{ lc }}">last &raquo;</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+
 		</div>
 
 	</div>
@@ -104,8 +111,9 @@ Offers for you
 		<!-- Location -->
 		<div class="widget">
 			<h4>Location</h4>
-			<form action="#" method="get">
-				<input type="text" placeholder="City" value=""/>
+			<form action="offer" method="get">
+				<input type="text" placeholder="City" name="location" value="{{ lc }}" />
+                <input type="hidden" name="name" value="{{ nm }}" />
 
 				<button class="button">Filter</button>
 			</form>
