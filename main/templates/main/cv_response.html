@@ -2,30 +2,6 @@
 {% load static %}
 
 {% block content %}
- <!-- Profile info -->
-    <div id="titlebar" class="single">
-        <div class="container">
-            <div class="sixteen columns">
-                <h2>Profile</h2>
-                <nav id="breadcrumbs">
-                    <ul>
-                        <li>You are here:</li>
-                        <li><a href="{% url 'home' %}">Home</a></li>
-                        <li>Profile</li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    </div>
-    <div class="container">
-        <div class="sixteen columns">
-            <p><strong>Company Name: </strong>{{ employer.name }}</p>
-            <a href="{% url 'password_change' %}?next={% url 'profile' %}" class="button">Change Password</a>
-            <a href="{% url 'profile_update' %}?next={% url 'profile' %}" class="button">Update Profile</a>
-        </div>
-    </div>
-    <div class="margin-top-60"></div>
-
 
     <!-- Offer info -->
     <div id="titlebar" class="single">
@@ -50,7 +26,8 @@
                         <th><i class="fa fa-user"></i> Name</th>
                         <th><i class="fa fa-user"></i> Job</th>
                         <th><i class="fa fa-user"></i> Location</th>
-                        <th><i class="fa fa-calendar"></i> Offers</th>
+                        <th><i class="fa fa-map-marker"></i> Type of employment</th>
+                        <th><i class="fa fa-calendar"></i> Type of remoteness</th>
                         <th></th>
                     </tr>
 
@@ -59,12 +36,12 @@
                             <td class="title">{{ offer.name }}</td>
                             <td>{{ offer.job }}</td>
                             <td>{{ offer.location }}</td>
-                            <td>{% if offer.cv.count %}
-                                <a href="" class="button">Show ({{ offer.cv.count }})</a>{% else %}-{% endif %}</td>
+                            <td>{% if offer.is_part_time %}Part time{% if offer.is_full_time %}<br>Full
+                                Time{% endif %}{% elif offer.is_full_time %}Full Time{% endif %}</td>
+                            <td>{% if offer.is_remotable %}Remote{% if offer.is_in_office %}<br>In
+                                office{% endif %}{% elif offer.is_in_office %}In office{% endif %}</td>
                             <td class="action">
-                                <a href="{% url 'offer_update' pk=offer.id %}"><i class="fa fa-pencil"></i> Edit</a>
                                 <a href="{% url 'offer_detail' pk=offer.id %}"><i class="fa  fa-eye"></i> Open</a>
-                                <a href="{% url 'offer_delete' pk=offer.id %}" class="delete"><i class="fa fa-remove"></i> Delete</a>
                             </td>
                         </tr>
                     {% endfor %}

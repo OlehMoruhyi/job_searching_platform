@@ -44,9 +44,13 @@ class CV(models.Model):
     cv_file = models.FileField(upload_to=user_directory_path, blank=True)
 
     seeker = models.ForeignKey(Seeker, on_delete=models.CASCADE)
+    offers = models.ManyToManyField('Offer', through='CVResponse')
 
-    def cv_name(self):
+    def cv_file_name(self):
         return self.cv_file.name.split('/')[-1]
+
+    def __str__(self):
+        return self.preferable_job.name
 
 
 class Employer(models.Model):
@@ -70,12 +74,16 @@ class Offer(models.Model):
     contact_number = PhoneNumberField()
     employer = models.ForeignKey(Employer, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.name
+
 
 class OfferResponse(models.Model):
     offer = models.ForeignKey(Offer, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     cover_letter = models.TextField()
     is_from_user = models.BooleanField()
+
 
 class CVResponse(models.Model):
     cv = models.ForeignKey(CV, on_delete=models.CASCADE)

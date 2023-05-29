@@ -8,10 +8,9 @@ from django.contrib.auth.views import PasswordChangeView as AuthPasswordChangeVi
 from django.contrib import messages
 from django.core.paginator import Paginator
 
-
 from .models import Offer, Seeker, Employer, CV
-from .forms import SeekerRegistrationForm, EmployerRegistrationForm, LoginForm, SeekerForm, EmployerForm, OfferForm, CVForm
-
+from .forms import SeekerRegistrationForm, EmployerRegistrationForm, LoginForm, SeekerForm, EmployerForm, OfferForm, \
+    CVForm
 
 
 def registration_request(request):
@@ -109,6 +108,29 @@ def profile_update(request):
     return render(request=request, template_name="form.html", context={"form": form, 'title': 'Update Profile'})
 
 
+class ResponseView(LoginRequiredMixin, View):  # Serhii
+
+    def get(self, request, pk):
+        user = request.user
+        if hasattr(user, 'seeker'):
+            cv = CV.objects.get(pk=pk)
+            offers = cv.offers.all()
+
+            template_name = "main/cv_response.html"
+            context = {'offers': offers, }
+
+        elif hasattr(user, 'employer'):
+            offer = Offer.objects.get(pk=pk)
+            cvs = offer.cvs.all()
+
+            template_name = "main/offer_response.html"
+            context = {'cvs': cvs}
+        else:
+            raise Http404
+
+        return render(request=request, template_name=template_name, context=context)
+
+
 class HomeView(View):  # Oleh
     template_name = 'index.html'
 
@@ -151,7 +173,6 @@ class OfferCreateView(CreateView):  # Yehor
         return super(OfferCreateView, self).form_valid(form)
 
 
-
 class OfferUpdateView(UpdateView):  # Yehor
     model = Offer
     form_class = OfferForm
@@ -176,12 +197,12 @@ class OfferDeleteView(DeleteView):  # Oleh
         return super(OfferDeleteView, self).form_valid(form)
 
 
-
 class CVListView(ListView):  # Lesha
     # specify the model for list view
     model = CV
     template_name = 'main/cv-list.html'
     context_object_name = 'cvs'
+
 
 class CVDetailView(DetailView):  # Lesha
     model = CV
@@ -226,4 +247,3 @@ class CVDeleteView(DeleteView):  # Lesha
 
 class SendCVView(View):  # Oleh
     ...
-

@@ -17,10 +17,10 @@ urlpatterns = [
 
     path("accounts/profile", views.ProfileView.as_view(), name='profile'),
     path("accounts/profile/update", views.profile_update, name='profile_update'),
+    path("accounts/profile/responses/<pk>", views.ResponseView.as_view(), name='profile_responses'),
 
     path("dashboard/offer", views.OfferListView.as_view(), name='offer_dash'),
     path("dashboard/offer/<pk>", views.OfferDetailView.as_view(), name='offer'),
-
     path("accounts/profile/offer/create", login_required(views.OfferCreateView.as_view()), name='offer_create'),
     path("accounts/profile/offer/<pk>", views.OfferDetailView.as_view(), name='offer_detail'),
 
