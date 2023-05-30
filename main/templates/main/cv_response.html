@@ -1,18 +1,19 @@
 {% extends 'header.html' %}
 {% load static %}
+{% load main_extras %}
 
 {% block content %}
 
-    <!-- CV info -->
+    <!-- Offer info -->
     <div id="titlebar" class="single">
         <div class="container">
             <div class="sixteen columns">
-                <h2>Manage resumes</h2>
+                <h2>Manage Offers</h2>
                 <nav id="breadcrumbs">
                     <ul>
                         <li>You are here:</li>
                         <li><a href="{% url 'home' %}">Home</a></li>
-                        <li>Manage resumes</li>
+                        <li>Manage Offers</li>
                     </ul>
                 </nav>
             </div>
@@ -20,55 +21,40 @@
     </div>
     <div class="container">
         <div class="sixteen columns">
-            {% if cvs %}
+            {% if offers %}
                 <table class="manage-table resumes responsive-table">
                     <tr>
+                        <th><i class="fa fa-user"></i> Name</th>
                         <th><i class="fa fa-user"></i> Job</th>
-                        <th><i class="fa fa-file-text"></i> Salary</th>
-                        <th><i class="fa fa-map-marker"></i> Experience</th>
+                        <th><i class="fa fa-user"></i> Location</th>
                         <th><i class="fa fa-map-marker"></i> Type of employment</th>
                         <th><i class="fa fa-calendar"></i> Type of remoteness</th>
-                        <th><i class="fa fa-user"></i> Location</th>
-                        <th><i class="fa fa-calendar"></i> CV file</th>
-                        <th><i class="fa fa-calendar"></i> Offers</th>
                         <th></th>
                     </tr>
 
-                    {% for cv in cvs %}
+                    {% for offer in offers %}
                         <tr>
-                            <td class="title">{{ cv.preferable_job }}</td>
-                            <td>{{ cv.salary }}</td>
-                            <td>{{ cv.experience }}</td>
-                            <td>{% if cv.is_part_time %}Part time{% if cv.is_full_time %}<br>Full
-                                Time{% endif %}{% elif cv.is_full_time %}Full Time{% endif %}</td>
-                            <td>{% if cv.is_remotable %}Remote{% if cv.is_in_office %}<br>In
-                                office{% endif %}{% elif cv.is_in_office %}In office{% endif %}</td>
-                            <td>{{ cv.location }}</td>
-                            <td><a href="{{ cv.cv_file.url }}">{{ cv.cv_file_name }}</a></td>
-
-                            <td>{% if cv.offers.count %}
-                                    <a href="{% url 'profile_responses' pk=cv.id %}" class="button" >Show ({{ cv.offers.count }})</a>
-                                {% else %}
-                                    -
-                                {% endif %}</td>
+                            <td class="title">{{ offer.name }}</td>
+                            <td>{{ offer.job }}</td>
+                            <td>{{ offer.location }}</td>
+                            <td>{% if offer.is_part_time %}Part time{% if offer.is_full_time %}<br>Full
+                                Time{% endif %}{% elif offer.is_full_time %}Full Time{% endif %}</td>
+                            <td>{% if offer.is_remotable %}Remote{% if offer.is_remotable %}<br>In
+                                office{% endif %}{% elif offer.is_remotable %}In office{% endif %}</td>
                             <td class="action">
-                                <a href="{% url 'cv_update' pk=cv.id %}"><i class="fa fa-pencil"></i> Edit</a>
-                                <a href="{% url 'cv_detail' pk=cv.id %}"><i class="fa  fa-eye"></i> Open</a>
-                                <a href="{% url 'cv_delete' pk=cv.id %}" class="delete"><i class="fa fa-remove"></i> Delete</a>
+                                <a href="{% url 'offer_detail' pk=offer.id %}?response_id={{ offer|get_response:cv }}">
+                                    <i class="fa  fa-eye"></i> Open</a>
                             </td>
                         </tr>
                     {% endfor %}
                 </table>
 
             {% else %}
-                <p>You didnt hav CV yet</p>
+                <p>You didn't hav cv response</p>
             {% endif %}
-            <br>
-            <a class="button" href="{% url 'cv_create' %}">Add CV</a>
         </div>
     </div>
     <div class="margin-top-60"></div>
-
 
 
 {% endblock %}

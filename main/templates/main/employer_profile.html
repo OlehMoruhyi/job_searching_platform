@@ -59,8 +59,8 @@
                             <td class="title">{{ offer.name }}</td>
                             <td>{{ offer.job }}</td>
                             <td>{{ offer.location }}</td>
-                            <td>{% if offer.cv.count %}
-                                <a href="" class="button">Show ({{ offer.cv.count }})</a>{% else %}-{% endif %}</td>
+                            <td>{% if offer.cvs.count %}
+                                <a href="{% url 'profile_responses' pk=offer.id %}" class="button">Show ({{ offer.cvs.count }})</a>{% else %}-{% endif %}</td>
                             <td class="action">
                                 <a href="{% url 'offer_update' pk=offer.id %}"><i class="fa fa-pencil"></i> Edit</a>
                                 <a href="{% url 'offer_detail' pk=offer.id %}"><i class="fa  fa-eye"></i> Open</a>

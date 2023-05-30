@@ -82,11 +82,11 @@ class Offer(models.Model):
 
 class OfferResponse(models.Model):
     offer = models.ForeignKey(Offer, on_delete=models.CASCADE)
-    cv = models.ForeignKey(CV, on_delete=models.CASCADE)
+    cv = models.ForeignKey(CV, on_delete=models.CASCADE, related_name='offer_response')
     letter = models.TextField(blank=True, null=True)
 
 
 class CVResponse(models.Model):
     cv = models.ForeignKey(CV, on_delete=models.CASCADE)
-    offer = models.ForeignKey(Offer, on_delete=models.CASCADE)
+    offer = models.ForeignKey(Offer, on_delete=models.CASCADE, related_name='cv_response')
     letter = models.TextField(blank=True, null=True)

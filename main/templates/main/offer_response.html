@@ -1,5 +1,6 @@
 {% extends 'header.html' %}
 {% load static %}
+{% load main_extras %}
 
 {% block content %}
 
@@ -30,7 +31,6 @@
                         <th><i class="fa fa-calendar"></i> Type of remoteness</th>
                         <th><i class="fa fa-user"></i> Location</th>
                         <th><i class="fa fa-calendar"></i> CV file</th>
-                        <th><i class="fa fa-calendar"></i> Offers</th>
                         <th></th>
                     </tr>
 
@@ -46,15 +46,8 @@
                             <td>{{ cv.location }}</td>
                             <td><a href="{{ cv.cv_file.url }}">{{ cv.cv_file_name }}</a></td>
 
-                            <td>{% if cv.offers.count %}
-                                    <a href="{% url 'profile_responses' pk=cv.id %}" class="button" >Show ({{ cv.offers.count }})</a>
-                                {% else %}
-                                    -
-                                {% endif %}</td>
                             <td class="action">
-                                <a href="{% url 'cv_update' pk=cv.id %}"><i class="fa fa-pencil"></i> Edit</a>
-                                <a href="{% url 'cv_detail' pk=cv.id %}"><i class="fa  fa-eye"></i> Open</a>
-                                <a href="{% url 'cv_delete' pk=cv.id %}" class="delete"><i class="fa fa-remove"></i> Delete</a>
+                                <a href="{% url 'cv_detail' pk=cv.id %}?response_id={{ cv|get_response:offer }}"><i class="fa  fa-eye"></i> Open</a>
                             </td>
                         </tr>
                     {% endfor %}

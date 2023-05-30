@@ -117,14 +117,14 @@ class ResponseView(LoginRequiredMixin, View):  # Serhii
             offers = cv.offers.all()
 
             template_name = "main/cv_response.html"
-            context = {'offers': offers, }
+            context = {'offers': offers, 'cv': cv}
 
         elif hasattr(user, 'employer'):
             offer = Offer.objects.get(pk=pk)
             cvs = offer.cvs.all()
 
             template_name = "main/offer_response.html"
-            context = {'cvs': cvs}
+            context = {'cvs': cvs, 'offer': offer}
         else:
             raise Http404
 
@@ -172,8 +172,9 @@ class OfferListView(View):  # Oleh
         page_number = request.GET.get("page", default=1)
         page_obj = paginator.get_page(page_number)
         return render(request, 'main/dashboard_offers.html', {"page_obj": page_obj, 'find_name': name,
-                                                         'find_location': location, 'find_type': check_type,
-                                                         'find_rate': check_rate})
+                                                              'find_location': location, 'find_type': check_type,
+                                                              'find_rate': check_rate})
+
 
 class OfferDetailView(DetailView):  # Yehor
     model = Offer
