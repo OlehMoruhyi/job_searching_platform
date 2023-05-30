@@ -21,9 +21,9 @@ urlpatterns = [
 
     path("dashboard/offer", views.OfferListView.as_view(), name='offer_dash'),
     path("dashboard/offer/<pk>", views.OfferDetailView.as_view(), name='offer'),
+
     path("accounts/profile/offer/create", login_required(views.OfferCreateView.as_view()), name='offer_create'),
     path("accounts/profile/offer/<pk>", views.OfferDetailView.as_view(), name='offer_detail'),
-
     path("accounts/profile/offer/<pk>/update", views.OfferUpdateView.as_view(), name='offer_update'),
     path("accounts/profile/offer/<pk>/delete", views.OfferDeleteView.as_view(), name='offer_delete'),
 
@@ -32,9 +32,9 @@ urlpatterns = [
     path("dashboard/cv", views.CVListView.as_view(), name='cv_dash'),
     path("dashboard/cv/<pk>", views.CVDetailView.as_view(), name='cv'),
 
-    path("accounts/profile/cv/<pk>", views.OfferDetailView.as_view(), name='cv_detail'),
-    path("accounts/profile/cv/create", views.OfferCreateView.as_view(), name='cv_create'),
-    path("accounts/profile/cv/<pk>/update", views.OfferUpdateView.as_view(), name='cv_update'),
-    path("accounts/profile/cv/<pk>/delete", views.OfferDeleteView.as_view(), name='cv_delete'),
+    path("accounts/profile/cv/create", views.CVCreateView.as_view(), name='cv_create'),
+    path("accounts/profile/cv/<pk>", views.CVDetailView.as_view(), name='cv_detail'),
+    path("accounts/profile/cv/<pk>/update", views.CVUpdateView.as_view(), name='cv_update'),
+    path("accounts/profile/cv/<pk>/delete", views.CVDeleteView.as_view(), name='cv_delete'),
 
 ]

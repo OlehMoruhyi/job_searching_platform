@@ -218,7 +218,7 @@ class CVCreateView(CreateView):  # Lesha
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        messages.success(self.request, "The task was created successfully.")
+        messages.success(self.request, "The cv was created successfully.")
         return super(CVCreateView, self).form_valid(form)
 
 

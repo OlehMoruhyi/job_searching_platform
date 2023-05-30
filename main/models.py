@@ -72,7 +72,9 @@ class Offer(models.Model):
     is_remotable = models.BooleanField()
     is_in_office = models.BooleanField()
     contact_number = PhoneNumberField()
+
     employer = models.ForeignKey(Employer, on_delete=models.CASCADE)
+    cvs = models.ManyToManyField('CV', through='OfferResponse')
 
     def __str__(self):
         return self.name
@@ -80,9 +82,8 @@ class Offer(models.Model):
 
 class OfferResponse(models.Model):
     offer = models.ForeignKey(Offer, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    cover_letter = models.TextField()
-    is_from_user = models.BooleanField()
+    cv = models.ForeignKey(CV, on_delete=models.CASCADE)
+    letter = models.TextField(blank=True, null=True)
 
 
 class CVResponse(models.Model):
