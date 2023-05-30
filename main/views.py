@@ -144,13 +144,37 @@ class OfferListView(View):  # Oleh
     def get(self, request):
         name = request.GET.get("name", default="")
         location = request.GET.get("location", default="")
+        check_rate = request.GET.get("check_rate", default="check-6")
+        check_type = request.GET.get("check_type", default="check-1")
+
         recent = Offer.objects.filter(name__icontains=name, location__name__icontains=location)
 
         paginator = Paginator(recent, 1)
+        match check_type:
+            case "check-2":
+                recent = recent.filter(is_full_time=True)
+            case "check-3":
+                recent = recent.filter(is_part_time=True)
+
+        match check_rate:
+            case "check-7":
+                recent = recent.filter(salary_min__range=[0, 25])
+            case "check-8":
+                recent = recent.filter(salary_min__range=[25, 50])
+            case "check-9":
+                recent = recent.filter(salary_min__range=[50, 100])
+            case "check-10":
+                recent = recent.filter(salary_min__range=[100, 200])
+            case "check-11":
+                recent = recent.filter(salary_min__gte=200)
+
+        paginator = Paginator(recent, 15)
         page_number = request.GET.get("page", default=1)
         page_obj = paginator.get_page(page_number)
-        return render(request, 'main/browse-jobs.html', {"page_obj": page_obj, 'nm': name, 'lc': location})
-
+        return render(request, 'main/dashboard_offers.html', {"page_obj": page_obj, 'nm': name, 'lc': location})
+        return render(request, 'main/dashboard_offers.html', {"page_obj": page_obj, 'find_name': name,
+                                                         'find_location': location, 'find_type': check_type,
+                                                         'find_rate': check_rate})
 
 class OfferDetailView(DetailView):  # Yehor
     model = Offer

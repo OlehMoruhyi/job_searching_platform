@@ -1,0 +1,300 @@
+{% extends 'header.html' %}
+{% load static %}
+
+{% block title %}
+Offers for you
+{% endblock %}
+
+{#{% block banner %}#}
+{#<!-- Banner#}
+{#================================================== -->#}
+{#<div id="banner" style="background: url({% static "images/banner-home-01.jpg" %})">#}
+{#	<div class="container">#}
+{#		<div class="sixteen columns">#}
+{##}
+{#			<div class="search-container">#}
+{##}
+{#				<!-- Form -->#}
+{#				<h2>Find job</h2>#}
+{#				<input type="text" class="ico-01" placeholder="job title, keywords or company name" value=""/>#}
+{#				<input type="text" class="ico-02" placeholder="city, province or region" value=""/>#}
+{#				<button><i class="fa fa-search"></i></button>#}
+{##}
+{#				<!-- Browse Jobs -->#}
+{#				<div class="browse-jobs">#}
+{#					Browse job offers by <a href="browse-categories.html"> category</a> or <a href="#">location</a>#}
+{#				</div>#}
+{##}
+{#				<!-- Announce -->#}
+{#				<div class="announce">#}
+{#					We’ve over <strong>15 000</strong> job offers for you!#}
+{#				</div>#}
+{##}
+{#			</div>#}
+{##}
+{#		</div>#}
+{#	</div>#}
+{#</div>#}
+{#{% endblock %}#}
+
+{% block content %}
+<!-- Content
+================================================== -->
+<div class="container">
+	<!-- Recent Jobs -->
+	<div class="eleven columns">
+	<div class="padding-right">
+		
+		<form action="offer" method="get" class="list-search">
+			<button><i class="fa fa-search"></i></button>
+			<input type="text" placeholder="job title, keywords or company name"  name="name" value="{{ find_name }}" />
+            <input type="hidden" name="location" value="{{ find_location }}" />
+            <input type="hidden" name="check_type" value="{{ find_type }}" />
+            <input type="hidden" name="check_rate" value="{{ find_rate }}" />
+			<div class="clearfix"></div>
+		</form>
+
+		<ul class="job-list full">
+             {% for rc in page_obj %}
+                <li><a href="/dashboard/offer/{{ rc.id }}">
+				<img src="{% static "images/job-list-logo-01.png" %}" alt="">
+				<div class="job-list-content">
+					<h4>{{ rc.name }} {% if rc.is_full_time %} <span class="full-time">Full-Time</span>{% endif %}{% if rc.is_part_time %} <span class="part-time">Part-Time</span>{% endif %}</h4>
+					<div class="job-icons">
+						<span><i class="fa fa-map-marker"></i> {{ rc.location }}</span>
+						<span><i class="fa fa-money"></i> ${{ rc.salary_min }}-{{ rc.salary_max }}</span>
+					</div>
+                    <p>{{ rc.description }}</p>
+
+				</div>
+				</a>
+				<div class="clearfix"></div>
+			</li>
+            {% endfor %}
+
+
+		</ul>
+		<div class="clearfix"></div>
+
+
+
+
+		<div class="pagination-container">
+            <nav class="pagination">
+                <ul>
+                    {% if page_obj.has_previous %}
+                        <li><a href="?page=1&name={{ find_name }}&location={{ find_location }}">&laquo; first</a></li>
+                        <li><a href="?page={{ page_obj.previous_page_number }}&name={{ find_name }}&location={{ find_location }}">prev</a></li>
+                    {% endif %}
+
+
+                    <li class="blank">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</li>
+
+
+
+                    {% if page_obj.has_next %}
+                        <li><a href="?page={{ page_obj.next_page_number }}&name={{ find_name }}&location={{ find_location }}">next</a></li>
+                        <li><a href="?page={{ page_obj.paginator.num_pages }}&name={{ find_name }}&location={{ find_location }}&check_type={{ find_type }}&check_rate={{ find_rate }}">last &raquo;</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+
+		</div>
+
+	</div>
+	</div>
+
+
+	<!-- Widgets -->
+	<div class="five columns">
+
+
+        <form action="offer" method="get">
+            <!-- Location -->
+            <div class="widget">
+                <h4>Location</h4>
+
+                    <input type="text" placeholder="City" name="location" value="{{ find_location }}" />
+                    <input type="hidden" name="name" value="{{ find_name }}" />
+
+                    <button class="button">Filter</button>
+
+            </div>
+
+            <!-- Job Type -->
+            <div class="widget">
+                <h4>Job Type</h4>
+
+                <ul class="checkboxes">
+                    <li>
+                        <input id="check-1" type="checkbox" name="check_type" value="check-1" {% if find_type == "check-1" %}checked{% endif %}>
+                        <label for="check-1">Any Type</label>
+                    </li>
+                    <li>
+                        <input id="check-2" type="checkbox" name="check_type" value="check-2"{% if find_type == "check-2" %}checked{% endif %}>
+                        <label for="check-2">Full-Time </label>
+                    </li>
+                    <li>
+                        <input id="check-3" type="checkbox" name="check_type" value="check-3"{% if find_type == "check-3" %}checked{% endif %}>
+                        <label for="check-3">Part-Time </label>
+                    </li>
+
+                </ul>
+
+            </div>
+
+            <!-- Rate/Hr -->
+            <div class="widget">
+                <h4>Rate / Hr</h4>
+
+                <ul class="checkboxes">
+                    <li>
+                        <input id="check-6" type="checkbox" name="check_rate" value="check-6" {% if find_rate == "check-6" %}checked{% endif %}>
+                        <label for="check-6">Any Rate</label>
+                    </li>
+                    <li>
+                        <input id="check-7" type="checkbox" name="check_rate" value="check-7"{% if find_rate == "check-7" %}checked{% endif %}>
+                        <label for="check-7">$0 - $25 </label>
+                    </li>
+                    <li>
+                        <input id="check-8" type="checkbox" name="check_rate" value="check-8"{% if find_rate == "check-8" %}checked{% endif %}>
+                        <label for="check-8">$25 - $50 </label>
+                    </li>
+                    <li>
+                        <input id="check-9" type="checkbox" name="check_rate" value="check-9"{% if find_rate == "check-9" %}checked{% endif %}>
+                        <label for="check-9">$50 - $100 </label>
+                    </li>
+                    <li>
+                        <input id="check-10" type="checkbox" name="check_rate" value="check-10"{% if find_rate == "check-10" %}checked{% endif %}>
+                        <label for="check-10">$100 - $200 </label>
+                    </li>
+                    <li>
+                        <input id="check-11" type="checkbox" name="check_rate" value="check-11"{% if find_rate == "check-11" %}checked{% endif %}>
+                        <label for="check-11">$200+ </label>
+                    </li>
+                </ul>
+
+            </div>
+        </form>
+
+
+	</div>
+	<!-- Widgets / End -->
+
+
+</div>
+
+
+<!-- Footer
+================================================== -->
+<div class="margin-top-25"></div>
+
+<div id="footer">
+	<!-- Main -->
+	<div class="container">
+
+		<div class="seven columns">
+			<h4>About</h4>
+			<p>Morbi convallis bibendum urna ut viverra. Maecenas quis consequat libero, a feugiat eros. Nunc ut lacinia tortor morbi ultricies laoreet ullamcorper phasellus semper.</p>
+			<a href="#" class="button">Get Started</a>
+		</div>
+
+		<div class="three columns">
+			<h4>Company</h4>
+			<ul class="footer-links">
+				<li><a href="#">About Us</a></li>
+				<li><a href="#">Careers</a></li>
+				<li><a href="#">Our Blog</a></li>
+				<li><a href="#">Terms of Service</a></li>
+				<li><a href="#">Privacy Policy</a></li>
+				<li><a href="#">Hiring Hub</a></li>
+			</ul>
+		</div>
+
+		<div class="three columns">
+			<h4>Press</h4>
+			<ul class="footer-links">
+				<li><a href="#">In the News</a></li>
+				<li><a href="#">Press Releases</a></li>
+				<li><a href="#">Awards</a></li>
+				<li><a href="#">Testimonials</a></li>
+				<li><a href="#">Timeline</a></li>
+			</ul>
+		</div>
+
+		<div class="three columns">
+			<h4>Browse</h4>
+			<ul class="footer-links">
+				<li><a href="#">Freelancers by Category</a></li>
+				<li><a href="#">Freelancers in USA</a></li>
+				<li><a href="#">Freelancers in UK</a></li>
+				<li><a href="#">Freelancers in Canada</a></li>
+				<li><a href="#">Freelancers in Australia</a></li>
+				<li><a href="#">Find Jobs</a></li>
+
+			</ul>
+		</div>
+
+	</div>
+
+	<!-- Bottom -->
+	<div class="container">
+		<div class="footer-bottom">
+			<div class="sixteen columns">
+				<h4>Follow Us</h4>
+				<ul class="social-icons">
+					<li><a class="facebook" href="#"><i class="icon-facebook"></i></a></li>
+					<li><a class="twitter" href="#"><i class="icon-twitter"></i></a></li>
+					<li><a class="gplus" href="#"><i class="icon-gplus"></i></a></li>
+					<li><a class="linkedin" href="#"><i class="icon-linkedin"></i></a></li>
+				</ul>
+				<div class="copyrights">©  Copyright 2015 by <a href="#">Work Scout</a>. All Rights Reserved.</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<!-- Back To Top Button -->
+<div id="backtotop"><a href="#"></a></div>
+
+</div>
+<!-- Wrapper / End -->
+
+
+<!-- Scripts
+================================================== -->
+<script src="{% static "scripts/jquery-2.1.3.min.js"%}"></script>
+<script src="{% static "scripts/custom.js"%}"></script>
+<script src="{% static "scripts/jquery.superfish.js"%}"></script>
+<script src="{% static "scripts/jquery.themepunch.tools.min.js"%}"></script>
+<script src="{% static "scripts/jquery.themepunch.revolution.min.js"%}"></script>
+<script src="{% static "scripts/jquery.themepunch.showbizpro.min.js"%}"></script>
+<script src="{% static "scripts/jquery.flexslider-min.js"%}"></script>
+<script src="{% static "scripts/chosen.jquery.min.js"%}"></script>
+<script src="{% static "scripts/jquery.magnific-popup.min.js"%}"></script>
+<script src="{% static "scripts/waypoints.min.js"%}"></script>
+<script src="{% static "scripts/jquery.counterup.min.js"%}"></script>
+<script src="{% static "scripts/jquery.jpanelmenu.js"%}"></script>
+<script src="{% static "scripts/stacktable.js"%}"></script>
+<script>
+$("input:checkbox").on('click', function() {
+  // in the handler, 'this' refers to the box clicked on
+  var $box = $(this);
+  if ($box.is(":checked")) {
+    // the name of the box is retrieved using the .attr() method
+    // as it is assumed and expected to be immutable
+    var group = "input:checkbox[name='" + $box.attr("name") + "']";
+    // the checked state of the group/box on the other hand will change
+    // and the current value is retrieved using .prop() method
+    $(group).prop("checked", false);
+    $box.prop("checked", true);
+  } else {
+    $box.prop("checked", false);
+  }
+});
+</script>
+
+</body>
+</html>
+{% endblock %}
