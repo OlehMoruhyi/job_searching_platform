@@ -135,21 +135,22 @@ class HomeView(View):  # Oleh
     template_name = 'index.html'
 
     def get(self, request):
+        is_employee = hasattr(request.user, 'employer')
         recent = Offer.objects.all()[:8]
         spotlight = Offer.objects.all()[:3]
-        return render(request, 'main/index.html', {'recent': recent, 'spotlight': spotlight})
+        return render(request, 'main/index.html', {'recent': recent, 'spotlight': spotlight, 'is_employee': is_employee})
 
 
 class OfferListView(View):  # Oleh
     def get(self, request):
+        if hasattr(request.user, 'employer'):
+            return redirect('home')
         name = request.GET.get("name", default="")
         location = request.GET.get("location", default="")
         check_rate = request.GET.get("check_rate", default="check-6")
         check_type = request.GET.get("check_type", default="check-1")
 
         recent = Offer.objects.filter(name__icontains=name, location__name__icontains=location)
-
-        paginator = Paginator(recent, 1)
         match check_type:
             case "check-2":
                 recent = recent.filter(is_full_time=True)
