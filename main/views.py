@@ -171,7 +171,6 @@ class OfferListView(View):  # Oleh
         paginator = Paginator(recent, 15)
         page_number = request.GET.get("page", default=1)
         page_obj = paginator.get_page(page_number)
-        return render(request, 'main/dashboard_offers.html', {"page_obj": page_obj, 'nm': name, 'lc': location})
         return render(request, 'main/dashboard_offers.html', {"page_obj": page_obj, 'find_name': name,
                                                          'find_location': location, 'find_type': check_type,
                                                          'find_rate': check_rate})
