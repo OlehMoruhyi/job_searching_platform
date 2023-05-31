@@ -108,7 +108,8 @@ Job Page
 					</div>
 
 					<div class="small-dialog-content">
-						<form action="#" method="get" >
+						<form action="#" method="post" >
+                            {% csrf_token %}
 							<input type="text" placeholder="Full Name" value=""/>
 							<input type="text" placeholder="Email Address" value=""/>
 							<textarea placeholder="Your message / cover letter sent to the employer"></textarea>

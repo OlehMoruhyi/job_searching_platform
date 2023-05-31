@@ -22,15 +22,17 @@ urlpatterns = [
     path("dashboard/offer", views.OfferListView.as_view(), name='offer_dash'),
     path("dashboard/offer/<pk>", views.OfferDetailView.as_view(), name='offer'),
 
+    path("dashboard/offer/<pk>/send", views.SendCVView.as_view(), name='send_cv'),
+
     path("accounts/profile/offer/create", login_required(views.OfferCreateView.as_view()), name='offer_create'),
     path("accounts/profile/offer/<pk>", views.OfferDetailView.as_view(), name='offer_detail'),
     path("accounts/profile/offer/<pk>/update", views.OfferUpdateView.as_view(), name='offer_update'),
     path("accounts/profile/offer/<pk>/delete", views.OfferDeleteView.as_view(), name='offer_delete'),
 
-    path("dashboard/offer/<pk>/send", views.SendCVView.as_view(), name='send_offer'),
-
     path("dashboard/cv", views.CVListView.as_view(), name='cv_dash'),
     path("dashboard/cv/<pk>", views.CVDetailView.as_view(), name='cv'),
+
+    path("dashboard/cv/<pk>/send", views.SendOfferView.as_view(), name='send_offer'),
 
     path("accounts/profile/cv/create", views.CVCreateView.as_view(), name='cv_create'),
     path("accounts/profile/cv/<pk>", views.CVDetailView.as_view(), name='cv_detail'),

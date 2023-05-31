@@ -8,7 +8,7 @@ from django.contrib.auth.views import PasswordChangeView as AuthPasswordChangeVi
 from django.contrib import messages
 from django.core.paginator import Paginator
 
-from .models import Offer, Seeker, Employer, CV
+from .models import Offer, Seeker, Employer, CV, OfferResponse, CVResponse
 from .forms import SeekerRegistrationForm, EmployerRegistrationForm, LoginForm, SeekerForm, EmployerForm, OfferForm, \
     CVForm
 
@@ -271,4 +271,26 @@ class CVDeleteView(DeleteView):  # Lesha
 
 
 class SendCVView(View):  # Oleh
-    ...
+    def get(self, request, pk):
+        return redirect(f'/dashboard/offer/{pk}')
+
+    def post(self, request, pk):
+        cover_letter = request.POST.get("cover_letter", default="")
+        cv_id = request.POST.get("cv_id", default="")
+        offer_response = OfferResponse(offer=Offer.objects.get(pk=pk), cv=CV.objects.get(pk=cv_id), letter=cover_letter)
+        offer_response.save()
+
+        return redirect(f'/dashboard/offer/{pk}')
+
+
+class SendOfferView(View):  # Oleh
+    def get(self, request, pk):
+        return redirect(f'/dashboard/cv/{pk}')
+
+    def post(self, request, pk):
+        cover_letter = request.POST.get("cover_letter", default="")
+        offer_id = request.POST.get("offer_id", default="")
+        cv_response = CVResponse(offer=Offer.objects.get(pk=offer_id), cv=CV.objects.get(pk=pk), letter=cover_letter)
+        cv_response.save()
+
+        return redirect(f'/dashboard/cv/{pk}')
