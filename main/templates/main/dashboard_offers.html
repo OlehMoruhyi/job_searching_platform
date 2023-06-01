@@ -59,7 +59,7 @@ Offers for you
                 <li><a href="/dashboard/offer/{{ rc.id }}">
 				<img src="{% static "images/job-list-logo-01.png" %}" alt="">
 				<div class="job-list-content">
-					<h4>{{ rc.name }} {% if rc.is_full_time %} <span class="full-time">Full-Time</span>{% endif %}{% if rc.is_part_time %} <span class="part-time">Part-Time</span>{% endif %}</h4>
+					<h4>{{ rc.name }} {% if rc.is_full_time %} <span class="full-time">Full-Time</span>{% endif %}{% if rc.is_part_time %} <span class="part-time">Part-Time</span>{% endif %}{% if rc.is_remotable %} <span class="internship">Remote</span>{% endif %}{% if rc.is_in_office %} <span class="temporary">Office</span>{% endif %}</h4>
 					<div class="job-icons">
 						<span><i class="fa fa-map-marker"></i> {{ rc.location }}</span>
 						<span><i class="fa fa-money"></i> ${{ rc.salary_min }}-{{ rc.salary_max }}</span>
