@@ -222,11 +222,39 @@ class OfferDeleteView(DeleteView):  # Oleh
         return super(OfferDeleteView, self).form_valid(form)
 
 
-class CVListView(ListView):  # Lesha
+class CVListView(View):  # Lesha
     # specify the model for list view
     model = CV
     template_name = 'main/cv-list.html'
     context_object_name = 'cvs'
+
+    def get(self, request):
+        if not hasattr(request.user, 'employer'):
+            return redirect('home')
+        name = request.GET.get("name", default="")
+        location = request.GET.get("location", default="")
+        check_rate = request.GET.get("check_rate", default="check-6")
+
+        recent = CV.objects.filter(seeker__name__icontains=name, location__name__icontains=location)
+
+        match check_rate:
+            case "check-7":
+                recent = recent.filter(salary__range=[0, 25])
+            case "check-8":
+                recent = recent.filter(salary__range=[25, 50])
+            case "check-9":
+                recent = recent.filter(salary__range=[50, 100])
+            case "check-10":
+                recent = recent.filter(salary__range=[100, 200])
+            case "check-11":
+                recent = recent.filter(salary__gte=200)
+
+        paginator = Paginator(recent, 15)
+        page_number = request.GET.get("page", default=1)
+        page_obj = paginator.get_page(page_number)
+        return render(request, 'main/cv-list.html', {"page_obj": page_obj, 'find_name': name,
+                                                              'find_location': location,
+                                                              'find_rate': check_rate})
 
 
 class CVDetailView(DetailView):  # Lesha
