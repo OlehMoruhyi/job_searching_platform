@@ -183,13 +183,13 @@ class OfferDetailView(DetailView):  # Yehor
         slug_url_kwarg = 'pk'
         context_object_name = 'offer'
 
-    def get_context_data(self, **kwargs):
-        user = self.request.user
-        context = super().get_context_data(**kwargs)
-        if hasattr(user, 'seeker'):
-            seeker = Seeker.objects.get(user=user)
-            context['cvs'] = CV.objects.filter(seeker=seeker)
-        return context
+        def get_context_data(self, **kwargs):
+            user = self.request.user
+            context = super().get_context_data(**kwargs)
+            if hasattr(user, 'seeker'):
+                seeker = Seeker.objects.get(user=user)
+                context['cvs'] = CV.objects.filter(seeker=seeker)
+            return context
 
 
 
