@@ -265,12 +265,15 @@ class CVDetailView(DetailView):  # Lesha
 
 
 class CVCreateView(CreateView):  # Lesha
-    form_class = CV
+    form_class = CVForm
     template_name = 'main/add-cv.html'
     success_url = reverse_lazy('home')
 
     def form_valid(self, form):
-        form.instance.user = self.request.user
+        user = self.request.user
+        seeker = Seeker.objects.get(user=user)
+        form.instance.seeker = seeker
+        form.save()
         messages.success(self.request, "The cv was created successfully.")
         return super(CVCreateView, self).form_valid(form)
 
