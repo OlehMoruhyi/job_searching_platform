@@ -178,15 +178,26 @@ class OfferListView(View):  # Oleh
 
 
 class OfferDetailView(DetailView):  # Yehor
-    model = Offer
-    template_name = 'main/job-page.html'
-    slug_url_kwarg = 'pk'
-    context_object_name = 'offer'
+        model = Offer
+        template_name = 'main/job_page.html'
+        slug_url_kwarg = 'pk'
+        context_object_name = 'offer'
+
+    def get_context_data(self, **kwargs):
+        user = self.request.user
+        context = super().get_context_data(**kwargs)
+        if hasattr(user, 'seeker'):
+            seeker = Seeker.objects.get(user=user)
+            context['cvs'] = CV.objects.filter(seeker=seeker)
+        return context
+
+
+
 
 
 class OfferCreateView(CreateView):  # Yehor
     form_class = OfferForm
-    template_name = 'main/add-job.html'
+    template_name = 'main/add_job.html'
     success_url = reverse_lazy('home')
 
     def form_valid(self, form):
@@ -202,7 +213,7 @@ class OfferUpdateView(UpdateView):  # Yehor
     model = Offer
     form_class = OfferForm
     slug_url_kwarg = 'pk'
-    template_name = 'main/update-job.html'
+    template_name = 'main/update_job.html'
     success_url = reverse_lazy('home')
 
     def form_valid(self, form):
@@ -225,7 +236,7 @@ class OfferDeleteView(DeleteView):  # Oleh
 class CVListView(View):  # Lesha
     # specify the model for list view
     model = CV
-    template_name = 'main/cv-list.html'
+    template_name = 'main/cv_list.html'
     context_object_name = 'cvs'
 
     def get(self, request):
@@ -252,21 +263,28 @@ class CVListView(View):  # Lesha
         paginator = Paginator(recent, 15)
         page_number = request.GET.get("page", default=1)
         page_obj = paginator.get_page(page_number)
-        return render(request, 'main/cv-list.html', {"page_obj": page_obj, 'find_name': name,
+        return render(request, 'main/cv_list.html', {"page_obj": page_obj, 'find_name': name,
                                                               'find_location': location,
                                                               'find_rate': check_rate})
 
 
 class CVDetailView(DetailView):  # Lesha
     model = CV
-    template_name = 'main/cv-detail.html'
+    template_name = 'main/cv_detail.html'
     slug_url_kwarg = 'pk'
     # context_object_name = 'cv'
+    def get_context_data(self, **kwargs):
+        user = self.request.user
+        context = super().get_context_data(**kwargs)
+        if hasattr(user, 'employer'):
+            employer = Employer.objects.get(user=user)
+            context['offers'] = Offer.objects.filter(employer=employer)
+        return context
 
 
 class CVCreateView(CreateView):  # Lesha
     form_class = CVForm
-    template_name = 'main/add-cv.html'
+    template_name = 'main/add_cv.html'
     success_url = reverse_lazy('home')
 
     def form_valid(self, form):
@@ -282,7 +300,7 @@ class CVUpdateView(UpdateView):  # Lesha
     model = CV
     form_class = CVForm
     slug_url_kwarg = 'pk'
-    template_name = 'main/update-cv.html'
+    template_name = 'main/update_cv.html'
     success_url = reverse_lazy('home')
 
     def form_valid(self, form):
@@ -294,8 +312,8 @@ class CVUpdateView(UpdateView):  # Lesha
 class CVDeleteView(DeleteView):  # Lesha
     model = CV
     context_object_name = 'cv'
-    success_url = reverse_lazy("cv-list")
-
+    success_url = reverse_lazy("profile")
+    template_name = 'main/cv_delete.html'
     def form_valid(self, form):
         messages.success(self.request, "The CV was deleted successfully.")
         return super(CVDeleteView, self).form_valid(form)

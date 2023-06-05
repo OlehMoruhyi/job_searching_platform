@@ -41,7 +41,7 @@ Job Page
 		</form>
 
 		<ul class="resumes-list">
-			p
+        {% for cv in page_obj %}
 			<li><a href="/dashboard/cv/{{ cv.id }}">
 				<img src="{% static "images/resumes-list-avatar-02.png" %}" alt="">
 				<div class="resumes-list-content">

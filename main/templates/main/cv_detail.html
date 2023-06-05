@@ -40,16 +40,41 @@ Job Page
 
 				<div id="small-dialog" class="zoom-anim-dialog mfp-hide apply-popup">
 					<div class="small-dialog-headline">
-						<h2>Send Message to John Doe</h2>
+						<h2>Send message</h2>
 					</div>
 
 					<div class="small-dialog-content">
-						<form action="#" method="get" >
-							<input type="text" placeholder="Full Name" value=""/>
-							<input type="text" placeholder="Email Address" value=""/>
-							<textarea placeholder="Message"></textarea>
+						<form action="{{ offer.id }}/send" method="post" >
+                            {% csrf_token %}
+                            <div class="upload-info"><strong>Write a message</strong>
+                                <textarea placeholder="Hello world!"></textarea></div>
 
+
+                     <div class="widget">
+                     <ul class="checkboxes">
+                    {% if offers %}
+                        <div class="upload-info"><strong>Choose offer to suggest</strong>
+                        {%  for offer in offers %}
+                             <li>
+						<input id="offer{{ offer.id }}" type="checkbox" name="offer_id" value="{{ offer.id }}">
+                        <label for="offer{{ offer.id }}">{{ offer.name }} </label>
+                             </li>
+
+                        {% endfor %}
+                            {% else %}
+                            <li><a href={% url 'home' %}>You haven`t got any offer`s</a></li>
+                     {% endif %}
+                     </ul>
+                     </div>
+
+
+
+							<div class="divider"></div>
+                            {% if offers %}
 							<button class="send">Send Application</button>
+                            {% else %}
+                                <a href="{% url 'profile' %}" class="send">Return to profile</a>
+                            {% endif %}
 						</form>
 					</div>
 

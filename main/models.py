@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 from phonenumber_field.modelfields import PhoneNumberField
-
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 class Category(models.Model):
     name = models.CharField(max_length=20)
@@ -63,10 +63,10 @@ class Offer(models.Model):
     description = models.TextField()
     location = models.ForeignKey('cities_light.City', on_delete=models.SET_NULL, null=True)
     job = models.ForeignKey(Job, on_delete=models.SET_NULL, null=True)
-    salary_min = models.IntegerField()
-    salary_max = models.IntegerField()
-    experience_min = models.IntegerField()
-    experience_max = models.IntegerField()
+    salary_min = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10000)])
+    salary_max = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10000)])
+    experience_min = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(1000)])
+    experience_max = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(1000)])
     is_part_time = models.BooleanField()
     is_full_time = models.BooleanField()
     is_remotable = models.BooleanField()
@@ -85,8 +85,13 @@ class OfferResponse(models.Model):
     cv = models.ForeignKey(CV, on_delete=models.CASCADE, related_name='offer_response')
     letter = models.TextField(blank=True, null=True)
 
+    class Meta:
+        unique_together = ["offer","cv"]
+
 
 class CVResponse(models.Model):
     cv = models.ForeignKey(CV, on_delete=models.CASCADE)
     offer = models.ForeignKey(Offer, on_delete=models.CASCADE, related_name='cv_response')
     letter = models.TextField(blank=True, null=True)
+    class Meta:
+        unique_together = ["offer","cv"]

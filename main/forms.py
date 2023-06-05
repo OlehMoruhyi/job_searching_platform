@@ -79,6 +79,7 @@ class OfferForm(forms.ModelForm):
         model = Offer
         #exclude = ('Employer',)
         fields = ('name', 'description', 'location', 'job', 'salary_min','salary_max','experience_min','experience_max','is_part_time','is_full_time','is_remotable','is_in_office','contact_number')
+
         
 class CVForm(forms.ModelForm):
     class Meta:

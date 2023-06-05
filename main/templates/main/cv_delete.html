@@ -1,0 +1,18 @@
+{% extends 'header.html' %}
+{% load static %}
+
+{% block content %}
+<div class="center">
+	<form method="post" class="card">
+		{% csrf_token %}
+		<h2>Delete Offer</h2>
+		<p>Are you sure that you want to delete "{{offer}}"?</p>
+		<p class="form-buttons">
+			<input type="submit" class="btn btn-primary" value="Delete">
+			<a href="{% url 'profile'%}" class="btn btn-outline">Cancel</a>
+		</p>
+	</form>
+</div>
+
+
+{% endblock %}
