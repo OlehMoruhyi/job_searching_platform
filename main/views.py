@@ -135,10 +135,15 @@ class HomeView(View):  # Oleh
     template_name = 'index.html'
 
     def get(self, request):
-        is_employee = hasattr(request.user, 'employer')
+        is_employer = hasattr(request.user, 'employer')
+        find_url = "offer"
+        if is_employer:
+            find_url = "cv"
+
         recent = Offer.objects.all()[:8]
         spotlight = Offer.objects.all()[:3]
-        return render(request, 'main/index.html', {'recent': recent, 'spotlight': spotlight, 'is_employee': is_employee})
+        return render(request, 'main/index.html', {'recent': recent, 'spotlight': spotlight,
+                                                   'is_employer': is_employer, 'find_url': find_url})
 
 
 class OfferListView(View):  # Oleh
