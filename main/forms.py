@@ -84,6 +84,6 @@ class OfferForm(forms.ModelForm):
 class CVForm(forms.ModelForm):
     class Meta:
         model = CV
-        fields = '__all__'
+        fields = ('location', 'is_part_time','is_full_time','is_remotable','is_in_office','phone_number','preferable_job', 'salary', 'experience', 'cv_file')
 
        
