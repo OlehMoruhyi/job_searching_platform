@@ -182,7 +182,6 @@ class OfferDetailView(DetailView):  # Yehor
         template_name = 'main/job_page.html'
         slug_url_kwarg = 'pk'
         context_object_name = 'offer'
-
         def get_context_data(self, **kwargs):
             user = self.request.user
             context = super().get_context_data(**kwargs)
@@ -246,7 +245,7 @@ class CVListView(View):  # Lesha
         location = request.GET.get("location", default="")
         check_rate = request.GET.get("check_rate", default="check-6")
 
-        recent = CV.objects.filter(seeker__name__icontains=name, location__name__icontains=location)
+        recent = CV.objects.filter(preferable_job__name__icontains=name, location__name__icontains=location)
 
         match check_rate:
             case "check-7":
@@ -285,14 +284,14 @@ class CVDetailView(DetailView):  # Lesha
 class CVCreateView(CreateView):  # Lesha
     form_class = CVForm
     template_name = 'main/add_cv.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('profile')
 
     def form_valid(self, form):
         user = self.request.user
         seeker = Seeker.objects.get(user=user)
         form.instance.seeker = seeker
         form.save()
-        messages.success(self.request, "The cv was created successfully.")
+        messages.success(self.request, "The CV was created successfully.")
         return super(CVCreateView, self).form_valid(form)
 
 
@@ -301,7 +300,7 @@ class CVUpdateView(UpdateView):  # Lesha
     form_class = CVForm
     slug_url_kwarg = 'pk'
     template_name = 'main/update_cv.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('profile')
 
     def form_valid(self, form):
         form.instance.user = self.request.user
