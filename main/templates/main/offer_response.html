@@ -47,17 +47,15 @@
                             <td><a href="{{ cv.cv_file.url }}">{{ cv.cv_file_name }}</a></td>
 
                             <td class="action">
-                                <a href="{% url 'cv_detail' pk=cv.id %}?response_id={{ cv|get_response:offer }}"><i class="fa  fa-eye"></i> Open</a>
+                                <a href="{% url 'cv_detail' pk=cv.id %}?response_id={{ cv|get_response:offer }}"><i
+                                        class="fa  fa-eye"></i> Open</a>
                             </td>
                         </tr>
                     {% endfor %}
                 </table>
 
-            {% else %}
-                <p>You didnt hav CV yet</p>
             {% endif %}
-            <br>
-            <a class="button" href="{% url 'cv_create' %}">Add CV</a>
+
         </div>
     </div>
     <div class="margin-top-60"></div>

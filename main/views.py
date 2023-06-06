@@ -285,6 +285,7 @@ class CVCreateView(CreateView):  # Lesha
     form_class = CVForm
     template_name = 'main/add_cv.html'
     success_url = reverse_lazy('profile')
+    model = CV
 
     def form_valid(self, form):
         user = self.request.user

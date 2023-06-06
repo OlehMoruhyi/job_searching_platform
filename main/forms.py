@@ -75,10 +75,36 @@ class LoginForm(forms.Form):
 
 
 class OfferForm(forms.ModelForm):
+    salary_min = forms.IntegerField(min_value=0)
+    salary_max = forms.IntegerField(min_value=1)
+    experience_min = forms.IntegerField(min_value=0)
+    experience_max = forms.IntegerField(min_value=1)
+
+
     class Meta:
         model = Offer
         #exclude = ('Employer',)
         fields = ('name', 'description', 'location', 'job', 'salary_min','salary_max','experience_min','experience_max','is_part_time','is_full_time','is_remotable','is_in_office','contact_number')
+
+    def clean(self):
+        cleaned_data = super().clean()
+        salary_min = cleaned_data.get("salary_min")
+        salary_max = cleaned_data.get("salary_max")
+        experience_min = cleaned_data.get("experience_min")
+        experience_max = cleaned_data.get("experience_max")
+
+        if salary_min and salary_max:
+            # Only do something if both fields are valid so far.
+            if salary_min > salary_max:
+                raise forms.ValidationError(
+                    "Food min. has to be less then Food max."
+                )
+        if experience_min and experience_max:
+            # Only do something if both fields are valid so far.
+            if experience_min > experience_max:
+                raise forms.ValidationError(
+                    "Food min. has to be less then Food max."
+                )
 
         
 class CVForm(forms.ModelForm):
